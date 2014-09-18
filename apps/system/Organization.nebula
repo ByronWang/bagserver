@@ -1,0 +1,6 @@
+type Organization|组织{
+ %Parent|所属 Organization;
+ !Name;
+  ?Abbr-Name|简称;
+ @GroupBy OrgType|组织类型 Attr;
+};

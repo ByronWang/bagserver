@@ -1,0 +1,4 @@
+type Company|公司 {
+	!Name;
+	@GroupBy SCMRole Attr;
+};

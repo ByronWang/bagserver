@@ -1,0 +1,4 @@
+type Icon{
+  !Name; 
+  IconGroup Attr;
+};

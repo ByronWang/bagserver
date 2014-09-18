@@ -1,0 +1,3 @@
+rt ProjectPersonMember extends Member<Project,Person>{
+@InlineShow *ProjectRole;
+}

@@ -1,0 +1,9 @@
+type Currency{
+  !Name;
+  ISO-Code;
+  Currency-Symbol;
+  Description;
+  Standard-Precision;
+  Costing-Precision;
+  RpundoffFactor Long;
+};

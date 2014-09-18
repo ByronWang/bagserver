@@ -1,0 +1,235 @@
+/* 
+	app css stylesheet 
+*/
+
+/* Global */
+html {
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+table {
+	table-layout: fixed;
+	overflow: hidden;
+}
+
+[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak
+	{
+	display: none;
+}
+
+/* Main Page */
+/*
+#search {
+	left: 160px;
+}
+*/
+
+/* don't need ?
+#sidebar>ul>li.section {
+	cursor: default;
+}
+
+#sidebar>ul>li.section a {
+	cursor: default;
+}
+*/
+
+/* change top level menu font */
+#sidebar>ul>li.section a {
+	text-transform: uppercase;
+	padding: 4px 0 4px 8px;
+	font-size: 11px;
+	font-weight: 800;
+	text-shadow: 0 1px 0 #000;
+}
+
+#user-nav>ul>li>a>i,#sidebar li a i {
+	background: none;
+}
+/* 
+#sidebar>ul>li>a {
+	padding: 4px 0 4px 8px;
+}
+
+#sidebar>ul>li>a>i {
+	margin-right: 4px;
+}
+
+#sidebar>ul>li>ul>li>a>i {
+	margin-right: 10px;
+}
+*/
+
+#content {
+	background: url("../img/content_bg.jpg");
+	min-height: 600px;
+}
+
+#content .innerPanel {
+	position: relative;
+	min-height: 600px;
+}
+
+#content {
+	margin-top: -38px;
+}
+
+#content article>header {
+	background: none;
+	min-height: 80px;
+	margin-top: 0px;
+	margin-bottom: -20px;
+	padding-top: 1px;
+}
+
+#content article>header h1{
+	margin-top: 20px;
+}
+
+#breadcrumb {
+	display: none;
+}
+
+#style-switcher {
+	top: 39px;
+	background: transparent;
+}
+
+#style-switcher:hover {
+	background-color: #000000;
+}
+
+#style-switcher.open {
+	background-color: #000000;
+}
+
+/* widget */
+.widget-box {
+	-webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.widget-title .buttons {
+	position: absolute;
+	top: 0;
+	right: 0;
+	float: right;
+	margin: 4px 10px 0 0;
+}
+
+.widget-title .buttons input,.widget-title .buttons .btn {
+	margin-right: 1em;
+}
+
+.widget-content {
+	position: relative;
+}
+
+.widget-content .nav-tabs{
+	margin-bottom: 1px;
+}
+
+.widget-content .nav-tabs .buttons {
+	position: absolute;
+	top: 0;
+	right: 0;
+	float: right;
+	margin: 4px 10px 0 0;
+}
+
+.widget-content>.table-bordered thead:first-child tr:first-child>th:first-child,.widget-content>.table-bordered tbody:first-child tr:first-child>td:first-child,.widget-content>.table-bordered tbody:first-child tr:first-child>th:first-child
+	{
+	-webkit-border-top-left-radius: 0px;
+	border-top-left-radius: 0px;
+	-moz-border-radius-topleft: 0px;
+}
+
+.widget-content>.table-bordered thead tr>th:first-child,.widget-content>.table-bordered tbody tr>td:first-child,.widget-content>.table-bordered tbody tr>th:first-child
+	{
+	border-left: 0px;
+}
+
+.widget-content>.table-bordered {
+	border: 1px solid #ddd;
+	border-collapse: separate;
+	border: 0;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+/* form */
+form.form-horizontal input.ng-valid.ng-dirty {
+	background-color: #78FA89;
+}
+
+.form-horizontal table tr.newLine input[type=text],.form-horizontal  table tr.newLine input[type=password],.form-horizontal  table tr.newLine textarea
+	{
+	width: 92% !important;
+}
+
+.form-horizontal table tr.newLine .input-append {
+	width: 95% !important;
+}
+
+.form-horizontal table tr.newLine .input-append input,.form-horizontal table tr.newLine .input-append .uneditable-input
+	{
+	width: 75% !important;
+}
+
+/* modal */
+.modal-header .buttons {
+	position: absolute;
+	right: 40px;
+	top: 6px;
+}
+
+/* Table */
+.table th.id {
+	text-align: right;
+	width: 4em;
+	min-width: 100px;
+}
+
+.table td.id {
+	text-align: right;
+}
+
+tr.dataline-D {
+	text-decoration: line-through;
+	color: grey;
+}
+
+/* Other */
+div.required>.control-label {
+	color: red;
+}
+
+.datepicker table {
+	width: inherit;
+	margin: 0;
+}
+
+.mask {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	z-index: 1000;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+
+.opacity {
+	opacity: 0.4;
+	filter: alpha(opacity =     30);
+	background-color: #FFFFFF;
+}
+
+/*??*/
+.container-fluid .row-fluid:first-child {
+	margin-top: 5px;
+}

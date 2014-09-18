@@ -1,0 +1,78 @@
+.ng-tree, .ng-tree ul { 
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.ng-tree ul {
+	background-color: white;
+	margin-top: 4px;
+}
+
+.ng-tree .hitarea {
+	background: url(images/treeview-default.gif) -64px -25px no-repeat;
+	height: 16px;
+	width: 16px;
+	margin-left: -16px;
+	float: left;
+	cursor: pointer;
+}
+/* fix for IE6 */
+* html .hitarea {
+	display: inline;
+	float:none;
+}
+
+.ng-tree li { 
+	margin: 0;
+	padding: 3px 0pt 3px 16px;
+}
+
+.ng-tree a.selected {
+	background-color: #eee;
+}
+
+#treecontrol { margin: 1em 0; display: none; }
+
+.ng-tree .hover { color: red; cursor: pointer; }
+
+.ng-tree li { background: url(images/treeview-default-line.gif) 0 0 no-repeat; }
+.ng-tree li.collapsable, .ng-tree li.expandable { background-position: 0 -176px; }
+
+.ng-tree .expandable-hitarea { background-position: -80px -3px; }
+
+.ng-tree li.last { background-position: 0 -1766px }
+.ng-tree li.lastCollapsable, .ng-tree li.lastExpandable { background-image: url(images/treeview-default.gif); }  
+.ng-tree li.lastCollapsable { background-position: 0 -111px }
+.ng-tree li.lastExpandable { background-position: -32px -67px }
+
+.ng-tree li.expandable>ul,.ng-tree li.lastExpandable>ul{
+	display: none;
+}
+
+.ng-tree div.lastCollapsable-hitarea, .ng-tree div.lastExpandable-hitarea { background-position: 0; }
+
+.ng-tree-red li { background-image: url(images/treeview-red-line.gif); }
+.ng-tree-red .hitarea, .ng-tree-red li.lastCollapsable, .ng-tree-red li.lastExpandable { background-image: url(images/treeview-red.gif); } 
+
+.ng-tree-black li { background-image: url(images/treeview-black-line.gif); }
+.ng-tree-black .hitarea, .ng-tree-black li.lastCollapsable, .ng-tree-black li.lastExpandable { background-image: url(images/treeview-black.gif); }  
+
+.ng-tree-gray li { background-image: url(images/treeview-gray-line.gif); }
+.ng-tree-gray .hitarea, .ng-tree-gray li.lastCollapsable, .ng-tree-gray li.lastExpandable { background-image: url(images/treeview-gray.gif); } 
+
+.ng-tree-famfamfam li { background-image: url(images/treeview-famfamfam-line.gif); }
+.ng-tree-famfamfam .hitarea, .ng-tree-famfamfam li.lastCollapsable, .ng-tree-famfamfam li.lastExpandable { background-image: url(images/treeview-famfamfam.gif); } 
+
+.ng-tree .placeholder {
+	background: url(images/ajax-loader.gif) 0 0 no-repeat;
+	height: 16px;
+	width: 16px;
+	display: block;
+}
+
+.filetree li { padding: 3px 0 2px 16px; }
+.filetree span.folder, .filetree span.file { padding: 1px 0 1px 16px; display: block; }
+.filetree span.folder { background: url(images/folder.gif) 0 0 no-repeat; }
+.filetree li.expandable span.folder { background: url(images/folder-closed.gif) 0 0 no-repeat; }
+.filetree span.file { background: url(images/file.gif) 0 0 no-repeat; }

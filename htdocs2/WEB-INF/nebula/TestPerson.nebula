@@ -1,0 +1,29 @@
+type TestPerson { 
+	!A1 Name;
+   A2{
+		!B1 Name;
+		?B1Ignorable Name;
+		*B2{
+			C1 Name;
+			?C1Ignorable Name;
+		};
+		#B3 Company;
+		%B4 Company;
+		B5[] Name;
+		B6[]{
+			D1 Name;
+			?D1Ignorable Name;
+		};
+	 };
+	A3 Company;
+	%A4 Company;
+	A5[] Name;
+	A6[]{
+		E1 Name;
+		E2{
+			F1 Name;
+		};
+		E3 Company;
+		%E4 Company;
+	};
+};

@@ -1,0 +1,3 @@
+type ProjectRole|项目角色{
+   !Name;
+}

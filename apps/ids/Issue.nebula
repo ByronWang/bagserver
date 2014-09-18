@@ -1,0 +1,11 @@
+tx Issue|问题{
+	!ID;
+	@Attach Project;
+	@InlineShow *IssueType;
+	@InlineShow DataStatus|状态 :="Draft";
+	*Subject:="test";
+	?Note;
+	 AssignTo Person;
+	?Date;
+	@InlineShow ?Version;
+}

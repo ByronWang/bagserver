@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" x-ng-app="nebula">
+<head>
+	<meta charset="utf-8"/>
+	<title>Dashboard I Admin Panel</title>
+	<link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+.module header{
+	background: whiteSmoke;
+	margin-bottom:.8em;
+	border-bottom: 1px solid #9BA0AF;
+	height: 34px;
+}
+	
+#main article header input.filter {
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	border: 1px solid #BBB;	
+	height: 20px;
+	color: #CCC;
+	-webkit-box-shadow: inset 0 2px 2px #CCC, 0 1px 0 white;
+	-moz-box-shadow: inset 0 2px 2px #ccc, 0 1px 0 #fff;
+	box-shadow: inset 0 2px 2px #CCC, 0 1px 0 white;
+	text-indent: 30px;
+	background: white url(../images/icn_search.png) no-repeat;
+	background-position: 10px 6px;
+	float: right;
+	position: absolute;
+	width: 14em;
+	margin-top: 2px;
+}
+
+#main article header a{
+	margin: 2px 10px;
+	float: right;
+}
+
+#sidebar h3{
+	line-height: 16px;
+}
+
+
+div.holderScrollBar{
+	position:absolute;
+	float: left;
+	height: 800px;
+	background-color:red;
+	width: 0px;
+}
+
+</style>
+</head>
+<body x-ng-controller="AppControl">
+	<div class="holderScrollBar">&nbsp;</div>
+	<header id="header">
+		<hgroup>
+			<h1 class="site_title"><a href="index2.html#/c/{{LoginUserID}}">Website Admin</a></h1>
+			<h2 class="section_title"> Dashboard </h2>
+		</hgroup>
+		<div class="btn_view_site"><a href="login.html">Logout</a></div>
+	</header> <!-- end of header bar -->
+	
+	<section id="secondary_bar">
+		<div class="user">
+			<p>{{LoginUserID}} (<a href="#">3 Messages</a>)</p>
+			<!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
+		</div>
+		<div class="breadcrumbs_container">
+			<article class="breadcrumbs"><a href="index.html">Website Admin</a> <div class="breadcrumb_divider"></div> <a class="current">Dashboard</a></article>
+		</div>
+	</section><!-- end of secondary bar -->
+	
+	<aside id="sidebar" class="column" x-ng-controller="MenuCtrl">
+		<!-- <form class="quick_search">
+			<input type="text" value="Quick Search" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
+		</form> -->
+		<div x-ng-repeat="menuGroup in datalist">
+			<h3>{{menuGroup.label}}</h3>
+			<ul class="toggle">
+				<li  x-ng-repeat="menu in menuGroup.items" class="icn_categories">				
+					<a x-ng-href="{{menu.href}}">{{menu.label}}</a>
+				</li>
+			</ul>
+		</div>
+
+		<footer>
+			<hr />
+			<p><strong>Copyright &copy; 2011 Website Admin</strong></p>
+			<p>Theme by <a href="http://www.medialoot.com">MediaLoot</a></p>
+		</footer>
+	</aside><!-- end of sidebar -->
+	
+	<section id="main" class="column"  x-ng-view>
+		<h4 class="alert_info">Welcome to the free MediaLoot admin panel template, this could be an informative message.</h4>
+		<article class="module width_full">
+			<header><h3>Welcome</h3></header>
+		</article><!-- end of stats article -->
+		
+		<div class="spacer"></div>
+	</section>
+
+<script src="lib/jquery/jquery-1.8.2.js"></script>
+<script src="lib/angular/angular.min.js"></script>
+<script src="lib/angular/angular-cookies.js"></script>
+<script src="lib/angular/angular-resource.js"></script>
+<script src="js/directives.js"></script>
+<script src="js/controllers.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/services.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

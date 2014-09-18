@@ -1,4 +1,4 @@
-/target
-
-/.settings
+db/*
+tmp/*
+log/*
 *.bak

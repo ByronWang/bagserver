@@ -1,0 +1,4 @@
+type ProductType{
+ %Parent|所属 ProductType;
+!Name;
+};

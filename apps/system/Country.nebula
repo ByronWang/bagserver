@@ -1,0 +1,6 @@
+type Country{
+  !Name;
+  Country-Code;
+  Area-Code;
+  Currency;
+};

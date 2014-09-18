@@ -1,0 +1,31 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Icon List</h3>
+    <div class="buttons">
+		<input type="text" x-ng-model="query" class="input-medium search-query ctrl" placeholder="Filter"/>
+	</div>
+</div>
+
+<div class="modal-body">
+  <table class="table">
+  	<thead>
+  		<tr>
+		  <th width="10em">#</th>
+			<th width="35%">IconGroup</th>
+			<th width="6em"></th>
+			<th>Name</th>		
+  		</tr>
+  	</thead>
+  	<tbody>
+        <tr ng-repeat="data in datalist | filter:query | orderBy:orderProp" ng-click="$retData(this.data)">
+			<td>{{$index+1}}</td>
+			<td>{{data["IconGroup"]}}</td>
+			<td><i x-ng-class="data['Name']"></i> </td>
+			<td>{{data["Name"]}}</td>
+        </tr>
+  	</tbody>
+  </table>
+</div>
+<div class="modal-footer">
+    <button class="btn popup-close" data-dismiss="modal" aria-hidden="true">Close</button>
+</div>

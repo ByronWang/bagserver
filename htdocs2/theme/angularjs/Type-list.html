@@ -1,0 +1,72 @@
+<article class="module width_full">
+	<header>
+		<h1 class="tabs_involved">Type</h1>
+	</header>
+	
+	<div id="breadcrumb">
+		<a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+		<a href="#" class="tip-bottom">Form elements</a>
+		<a href="#" class="current">Common elements</a>
+	</div>
+	
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div class="widget-title">
+						<span class="icon"> <i class="icon-align-justify"></i>
+						</span>
+						<h5>Type List</h5>
+						<div class="buttons btn-toolbar" x-ng-show="data.standealone='Master'">
+							<input type="text"	x-ng-model="query" class="input-medium btn-mini search-query ctrl" placeholder="Filter"	>
+							<a href="#/d/Type/!new" class="btn btn-small btn-success ctrl"><i class="icon-plus icon-white"></i> 新建</a> 
+						</div>
+					</div>
+					<div class="widget-content nopadding">
+<table class="table table-bordered table-striped table-hover" x-ng-controller="PaginationCtrl">
+							<thead>
+								<tr>
+									<th style="width: 2em">#</th>
+		<th style="width: 13em"><a href="" x-ng-click='reverse=(predicate=="Name") && !reverse; predicate="Name";'>Name <i class="icon-sort"
+					x-ng-show='predicate!="Name"'
+				> </i> <i class="icon-sort-down" x-ng-show='predicate=="Name" && reverse'> </i> <i class="icon-sort-up" x-ng-show='predicate=="Name" && !reverse'> </i></a></th>
+									<th>Standalone</th>
+									<th>Super Type</th>
+									<th>Data</th>
+									<th>Template</th>
+								</tr>
+							</thead>
+							<tbody>
+		<tr 
+			x-ng-repeat="data in datalist | filter:'!Abstract' | filter:query | orderBy:predicate:reverse | startFrom:(currentPage-1)*pageSize | limitTo:pageSize"	>
+			<td> {{(currentPage-1)*pageSize+1 + $index}}</td>
+			<td><a href="#/d/{{typename}}/{{data.Name}}">{{data.Name}}</a> <span x-ng-repeat="(key, value) in data.NameAlias">&nbsp;
+					{{key}}: {{value}}</span></td>
+									<td>{{data.Standalone}}</td>
+									<td><a href="#/d/{{typename}}/{{data.SuperType}}">{{data.SuperType}}</a></td>
+			<td><a href="#/d/{{data.Name}}/" x-ng-show="data.Standalone=='Master' || data.Standalone=='Transaction'|| data.Standalone=='Flow'"><i class="icon-edit"></i>
+					Data</a></td>
+			<td><a href="#/t/angularjs/unicorn/{{data.Name}}-list.html" x-ng-show="data.Standalone=='Master' || data.Standalone=='Transaction' || data.Standalone=='Flow'">List</a>
+				<a href="#/t/angularjs/unicorn/{{data.Name}}-detail.html" x-ng-show="data.Standalone=='Master' || data.Standalone=='Transaction'|| data.Standalone=='Flow'">Detail</a></td>
+								</tr>
+							</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="4">
+				<div class="pagination">
+					<ul x-ng-init="tablePages= [1,2,3,4,5,6,7,8,9,10] ;">
+						<li x-ng-class="{'disabled' : currentPage<=1}"><a href=""  x-ng-click="$setCurrentPage(currentPage-1);" >Prev</a></li>
+						<li x-ng-repeat="page in tablePages | limitTo: (datalist.length/pageSize+1)"  x-ng-class="{'active':page==currentPage}"><a href="" x-ng-click="$setCurrentPage(page);" >{{page}}</a></li>
+						<li x-ng-class="{'disabled' : currentPage>=(datalist.length/pageSize)}"><a href=""  x-ng-click="$setCurrentPage(currentPage+1);" >Next</a></li>
+					</ul>
+				</div>
+			</td>
+		</tr>
+	</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</article>

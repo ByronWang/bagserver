@@ -1,0 +1,8 @@
+tx Message|通知{
+!ID;
+SendBy String;
+SendTo User;
+URL;
+*Subject;
+?Note;
+};

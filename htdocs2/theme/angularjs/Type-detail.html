@@ -1,0 +1,138 @@
+<article class="module width_full">
+	<header>
+		<h1 class="tabs_involved" x-ng-show="data.Name">
+			Type-{{data.Name}} <span x-ng-repeat="(key, value) in data.NameAlias">&nbsp; {{key}}: {{value}}</span>
+		</h1>
+		<h1 class="tabs_involved" x-ng-show="!data.Name">Type</h1>
+		<div class="buttons btn-toolbar" x-ng-show="data.standealone='Master'">
+			<div class="btn-group">
+				<a href="#/d/{{data.Name}}/" class="btn"><i class="icon-edit"></i> Edit Data</a>
+				<button class="btn dropdown-toggle" data-toggle="dropdown">
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu"  x-ng-controller="TypeQuickEditCtrl">
+					<li><a tabindex="-1" href="#/t/theme/angularjs/unicorn/{{data.Name}}-list.html">View List Template</a></li>
+					<li><a tabindex="-1" href="#/t/theme/angularjs/unicorn/{{data.Name}}-detail.html">View Detail Template</a></li>
+					<li><a tabindex="-1" href="#/t/theme/angularjs/unicorn/{{data.Name}}-popup.html">View Popup Template</a></li>
+					<li><a tabindex="-1" href="" 	x-ng-click="$addMenu('AdminMainMenu',data.Name,'icon-adjust','d/' + data.Name + '/');">Add To AdminMainMenu</a></li>
+					<li><a tabindex="-1" href="" 	x-ng-click="$addMenu('ProfileMenu',data.Name,'icon-adjust','d/' + data.Name + '/');">Add To ProfileMenu</a></li>
+					<li><a tabindex="-1" href="" 	x-ng-click="$addMenu('CommonUserMenu',data.Name,'icon-adjust','d/' + data.Name + '/');">Add To CommonUserMenus</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	
+	<div id="breadcrumb">
+		<a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+		<a href="#" class="tip-bottom">Form elements</a>
+		<a href="#" class="current">Common elements</a>
+	</div>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div class="widget-title">
+						<span class="icon"> <i class="icon-align-justify"></i>
+						</span>
+						<ul class="nav nav-tabs">
+							<li class="active" x-ng-show="data.Name"><a href="#home" data-toggle="tab">基本信息</a></li>
+							<li x-ng-show="data.Name && data.Code"><a href="#source" data-toggle="tab">源代码</a></li>
+							<li class="active" x-ng-show="!data.Name"><a href="#source" data-toggle="tab">源代码</a></li>
+						</ul>
+					</div>
+					<div class="widget-content tab-content nopadding">
+						<div class="tab-pane active" id="home" x-ng-show="data.Name">
+							<form name="form" x-ng-submit="$save()" class="form-horizontal">
+							<div class="control-group" style="clear: both;">
+								<label class="control-label">Name</label>
+								<div class="controls">
+									<input type="text" x-ng-model="data.Name" x-ng-readonly="update"   title="help data.Name type"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Parent Type</label>
+								<div class="controls">
+									<a href="#/d/{{typename}}/{{data.SuperType}}">{{data.SuperType}}</a>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Standalone</label>
+								<div class="controls">
+									<span class="uneditable-input">{{data.Standalone}}</span>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Attrs</label>
+								<div class="controls">
+									<ol>
+										<li x-ng-repeat="(key, value) in data.Attrs">{{key}} : {{value}}</li>
+									</ol>
+								</div>
+							</div>
+							<div class="control-group" x-ng-show="data.Fields.length>0">
+								<label class="control-label">Detail</label>
+								<table class="table tablesorter table-bordered">
+									<thead>
+										<tr>
+											<th width="3em">#</th>
+											<th width="15%">Name</th>
+											<th width="15%">Key</th>
+											<th width="15%">Unique</th>
+											<th width="15%">Type</th>
+											<th width="15%">Refer</th>
+											<th>Attrs</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr x-ng-repeat="item in data.Fields">
+											<td>{{$index+1}}</td>
+											<td align="left">{{item.Name}}<span x-ng-repeat="(key, value) in item.NameAlias">&nbsp; {{key}}:
+													{{value}}</span></td>
+											<td>{{item.Key}}</td>
+											<td>{{item.Unique}}</td>
+											<td><a href="#/d/Type/{{item.TypeName}}">{{item.TypeName}}</a></td>
+											<td>{{item.Refer}}</td>
+											<td>{{item.Attrs}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="form-actions">
+								<button type="submit" class="btn btn-primary" x-ng-disabled="!data.mutable && form.$invalid">保存</button>
+								<a href="" class="btn" x-ng-click="$back()">返回</a>
+							</div>
+							</form>
+						</div>
+						<div class="tab-pane" id="source" x-ng-show="data.Name">
+							<form name="form" x-ng-submit="$save()" class="form-horizontal">
+							<div class="control-group">
+								<textarea x-ng-model="data.Code" x-required rows="20" cols="120" class="input-block-level"
+									placeholder="add Type info here"
+								></textarea>
+								</div>
+								<div class="form-actions">
+									<button type="submit" class="btn btn-primary" x-ng-disabled="!data.mutable && form.$invalid">保存</button>
+									<a href="" class="btn" x-ng-click="$back()">返回</a>
+								</div>
+							</form>
+						</div>
+						<div class="tab-pane active" id="source" x-ng-show="!data.Name">
+							<form name="form" x-ng-submit="$save()" class="form-horizontal">
+							<div class="control-group">
+								<textarea x-ng-model="data.Code" x-required rows="20" cols="120" class="input-block-level"
+									placeholder="add Type info here"
+								></textarea>
+								</div>
+								<div class="form-actions">
+									<button type="submit" class="btn btn-primary" x-ng-disabled="!data.mutable && form.$invalid">保存</button>
+									<a href="" class="btn" x-ng-click="$back()">返回</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</article>

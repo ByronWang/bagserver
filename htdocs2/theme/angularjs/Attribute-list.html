@@ -1,0 +1,114 @@
+<article class="module width_full">
+	<header>
+		<h1 class="tabs_involved">Attribute</h1>
+	</header>
+	<div id="breadcrumb">
+		<a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#"
+			class="current"
+		>Common elements</a>
+	</div>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span4">
+				<div class="widget-box">
+					<div class="widget-title">
+						<span class="icon"> <i class="icon-align-justify"></i>
+						</span>
+						<div class="buttons btn-toolbar" x-ng-show="data.standealone='Master'">
+							<input type="text" x-ng-model="query" class="input-small search-query ctrl" placeholder="Filter">
+							<a href="" class="btn btn-small btn-success"	x-ng-click="$newChild();"
+							><i class="icon-plus icon-white"></i> </a>
+						</div>
+					</div>
+					<div class="widget-content nopadding">
+						<ul class="nav nav-list">
+							<li x-ng-repeat="item in datalist | filter:query | orderBy:orderProp"><a href="" x-ng-click="$loadChild(item.Name);">{{item.Name}}</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="span8" x-ng-controller="AttributeEditCtrl">
+				<div class="widget-box">
+					<div class="widget-title">
+						<span class="icon"> <i class="icon-align-justify"></i>
+						</span>
+						<h5>明细 - {{entityData.Name}}</h5>
+					</div>
+					<div class="widget-content nopadding" >
+						<!-- Detail Edit Page  -->
+						<form name="form" x-ng-submit="$save()" class="form-horizontal" novalidate>
+							<div class="control-group required">
+								<label class="control-label"> Name</label>
+								<div class="controls">
+									<input id="Name" x-ng-model="entityData.Name" type="text" required x-ng-readonly="update" x-ng-maxLength="60" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Values</label>
+								<div class="controls" x-ng-controller="AttrValueCtrl" style="min-height: 200px;">
+									<span>{{remaining()}} of {{entityData.Values.length}} remaining</span>
+									<table>
+										<tbody>
+											<tr x-ng-repeat="attrValue in entityData.Values">
+												<td><span class="done-{{attrValue.done}}">{{attrValue.Name}}</span></td>
+												<td><a href="" x-ng-click="removeAttrValue(attrValue)"><i class="icon-minus-sign"></i> </a></td>
+											</tr>
+										</tbody>
+										<tfoot>
+											<tr>
+												<td><input type="text" x-ng-model="attrValueText" class="input-small" size="30" placeholder="add new attrValue here"></td>
+												<td>
+													<button class="btn-primary" type="submit" x-ng-click="addAttrValue($event)">add</button>
+												</td>
+											</tr>
+									</table>
+								</div>
+							</div>
+							<div class="form-actions">
+								<input type="submit" class="btn btn-primary" x-ng-disabled="form.$invalid" value="Save changes">
+								<!-- button type="button" class="btn">Cancel</button-->
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</article>
+<script type="text/javascript">
+	function AttrValueCtrl($scope) {
+		$scope.entityData.Values = [];
+
+		$scope.addAttrValue = function(event) {
+			$scope.entityData.Values.push({
+				Name : $scope.attrValueText,
+				done : false
+			});
+			$scope.attrValueText = '';
+			event.preventDefault();
+			return false;
+		};
+
+		$scope.removeAttrValue = function(attrValue) {
+			attrValue.done = true;
+			$scope.archive();
+		};
+
+		$scope.remaining = function() {
+			var count = 0;
+			angular.forEach($scope.entityData.Values, function(attrValue) {
+				count += attrValue.done ? 0 : 1;
+			});
+			return count;
+		};
+
+		$scope.archive = function() {
+			var oldAttrValues = $scope.entityData.Values;
+			$scope.entityData.Values = [];
+			angular.forEach(oldAttrValues, function(attrValue) {
+				if (!attrValue.done)
+					$scope.entityData.Values.push(attrValue);
+			});
+		};
+	}
+</script>
