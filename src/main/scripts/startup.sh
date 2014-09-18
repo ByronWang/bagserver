@@ -1,0 +1,1 @@
+sudo ../ejre1.7.0_40/bin/java -cp .:lib/*:conf http.startup.JettyServer
