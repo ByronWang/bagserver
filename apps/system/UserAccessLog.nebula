@@ -1,3 +1,4 @@
+@Table("SYS_ACCESSLOG")
 tx UserAccessLog{
 	!ID;
 	User;

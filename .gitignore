@@ -1,4 +1,6 @@
 db/*
 tmp/*
-log/*
+logs/*
 *.bak
+*.log
+*.log.*

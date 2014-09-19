@@ -1,3 +1,4 @@
+@Table("SYS_MENUBAR")
 type MenuBar{
   !Name;
   Title Name;

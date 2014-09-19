@@ -1,3 +1,4 @@
+@Table("SYS_MENU")
 type Menu{
 	%Parent Menu;
 	!Name;

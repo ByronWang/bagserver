@@ -1,3 +1,4 @@
+@Table("SYS_APPLICATION")
 type System{
   !Name;
   Theme Attr;

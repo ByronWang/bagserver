@@ -1,5 +1,0 @@
-type Calendar {
-	Organization;
-	!Name;
-	?Description;
-};

@@ -1,6 +1,0 @@
-type Bank{
-  !Name;
-  Bank-Code;
-  Location;
-  Description;
-};
