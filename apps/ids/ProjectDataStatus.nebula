@@ -1,2 +1,0 @@
-rt ProjectDataStatus extends Member<Project,DataStatus>{
-};

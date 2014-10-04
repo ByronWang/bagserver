@@ -1,0 +1,5 @@
+type Category{
+!ID;
+*Name;
+%Parent Category;
+}

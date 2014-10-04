@@ -1,0 +1,33 @@
+tx OrderItemFlow {
+    !ID;
+    *Actor|操作者 User;
+    @Attach OrderItem;
+	?Bid{
+		!ID;
+		@Expand @Attach  OrderItem;
+		@GroupBy *Purchaser|买手 User;
+		Deadline|代购期限 Date;
+		Commission|佣金 Price;/*8%*/
+		Suggested-Price|建议价格;
+		DeliveryCost|运费 Price;
+		DeliveryMethod|邮寄方式;
+		Comment;
+	};
+    ?Extends{
+    	?BidSucceed-Datetime|买手选定时间;
+    	?CancelOrder-Datetime|放弃订单时间;
+    	?CancelPurchasing-Datetime|采购放弃时间;
+    	?PurchasingStart-Datetime|采购结束时间;
+    	?PurchasingEnd-Datetime|采购开始时间;
+    	?PurchasingEndLocation|采购开始位置 String;
+    	?Actual-Price|实际价格;
+    	?Invoice-Image|小票图片;
+    	?ProductActual-Image|实际物品图片;
+    	?DeliveryStart-Datetime|发货时间;
+    	?EstimateArrive-Datetime|预计到货时间;
+    	?DeliveryArrive-Datetime|到货时间;
+        ?Tracking-No|快递单号;
+    };
+    Status|状态 OrderStatus;
+    Action;
+}

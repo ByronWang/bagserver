@@ -1,6 +1,0 @@
-tx IssueComment{
-!!ID;
-@Attach Issue;
-Person;
-Comment;
-};

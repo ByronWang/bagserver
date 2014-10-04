@@ -1,0 +1,12 @@
+tx  Bid{
+	!ID;
+	@Expand @Attach  OrderItem;
+	@GroupBy *Purchaser|买手 User;
+	Deadline|代购期限 Date;
+	Commission|佣金 Price;/*8%*/
+	Suggested-Price|建议价格;
+	DeliveryCost|运费 Price;
+	DeliveryMethod|邮寄方式;
+	Comment;
+        Status BidStatus;
+};

@@ -3,17 +3,17 @@
 [#import "./lib/forms.ftl" as nf]
 [#import "./lib/layouts.ftl" as nl]
 
-[@nl.article title="${type.displayName}" type=type]
-	[@nl.simplelist title="${type.displayName}"  type=type]
+[@nl.article title="${attachedType.displayName} - {{attachedData.ID}}" type=type]
+[@nl.txAttachedHome attachedType=attachedType type=type]
 			
 	<table class="table table-striped table-bordered table-hover">
 		<thead>
 			<tr>
 				<th class="id">#</th>
-				[#list type.fields as field][#if !field.array && !field.ignorable]
+				[#list type.fields as field][#if !field.array && !field.ignorable && !(field.attrs.Attach?? && field.name ==attachedType.name)]
 					[#switch field.refer]
 					[#case "ByVal"]
-						[#if !field.key || field.type.name!="ID"]
+						[#if !field.key]
 				<th>${field.displayName}</th>
 						[/#if]
 						[#break]
@@ -38,14 +38,14 @@
 		<tbody>
 			<tr x-ng-repeat="data in datalist | filter:query | orderBy:orderProp">
 				[#assign keyfieldname][/#assign]
-			[#list type.fields as field][#if !field.array  && !field.ignorable]
+			[#list type.fields as field][#if !field.array  && !field.ignorable && !(field.attrs.Attach?? && field.name ==attachedType.name)]
 				[#switch field.refer]
 				[#case "ByVal"]
 					[#if field.key]
-			<td class="id"><a href="#/d/${type.name}/{{data.${field.name}}}">{{data["${field.name}"]}}</a></td>
-						[#assign keyfieldname]${field.name}[/#assign]
+			<td><a href="#/d/${attachedType.name}/{{attachedData.ID}}/${type.name}/{{data.${field.name}}}">{{data["${field.name}"]}}</a></td>
+						[#assign keyfieldname]${field.name}[/#assign]			
 					[#elseif field.core]	
-			<td><a href="#/d/${type.name}/{{data.${keyfieldname}}}">{{data["${field.name}"]}}</a></td>
+			<td><a href="#/d/${attachedType.name}/{{attachedData.ID}}/${type.name}/{{data.${keyfieldname}}}">{{data["${field.name}"]}}</a></td>
 					[#else]	
 			<td>{{data["${field.name}"]}}</td>
 					[/#if]
@@ -57,7 +57,9 @@
 					[#break]
 				[#case "ByRef"]
 				[#case "Cascade"]
-					<td>[#list field.type.fields as rF]
+					<td>[#if field.unique]<a href="#/d/${attachedType.name}/{{attachedData.ID}}/${type.name}/{{data.${keyfieldname}}}">[/#if]
+					
+					[#list field.type.fields as rF]
 						[#if field.key && rF.key && rF.name!="ID"]
 						{{ data["${field.name}${rF.name}"] }}&nbsp;
 						[#elseif rF.key && rF.key && rF.name!="ID"]
@@ -65,12 +67,13 @@
 						[#elseif rF.core]
 						{{ data["${field.name}${rF.name}"] }}&nbsp;
 						[/#if]
-					[/#list]</td>
+					[/#list]
+					[#if field.core]</a>[/#if]</td>
 					[#break]
 				[/#switch]
 			[/#if][/#list]
 			</tr>
 		</tbody>
 	</table>
-	[/@nl.simplelist]
+[/@nl.txAttachedHome]
 [/@nl.article]

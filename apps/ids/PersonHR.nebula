@@ -1,7 +1,0 @@
-tx PersonHR{
-!!ID;
-@Attach Person;
-From-Date;
-?To-Date;
-Salary Amount;
-};

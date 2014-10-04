@@ -1,9 +1,10 @@
 @Table("SYS_USER")
 type User{
-  !Name;
+  !!ID;
+  *Name;
+  NickName Name;
   ?Description;
   Password;
-  EMail;
+  ?EMail;
   ?Note;
-  Role;
 };

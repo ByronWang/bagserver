@@ -1,4 +1,5 @@
 @Table("SYS_ROLE")
 type Role{
-  !Name;
+  !!ID;
+  *Name;
 };

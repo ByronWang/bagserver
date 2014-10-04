@@ -1,0 +1,6 @@
+@Complex
+tx Order{
+@IDGenerationStrategy("time") !!ID;
+@GroupBy Customer|买家 User;
+@Expand *&Items[] OrderItem;
+}

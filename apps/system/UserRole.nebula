@@ -1,0 +1,2 @@
+rt UserRole  extends Member<User,Role>{
+};
