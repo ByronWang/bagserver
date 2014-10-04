@@ -1,4 +1,4 @@
-
+@echo off
 set NEBULA_HOME=
 
 rem Guess NEBULA_HOME if not defined
