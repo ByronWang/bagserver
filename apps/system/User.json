@@ -1,0 +1,34 @@
+[
+  {
+    "ID": 1,
+    "Name": "wangshilian",
+    "NickName": "买家B",
+    "Description": "我是一个买家",
+    "Password": "123456",
+    "Note": "深深打上"
+  },
+  {
+    "ID": 2,
+    "Name": "jihua",
+    "NickName": "买家A",
+    "Password": "123444"
+  },
+  {
+    "ID": 3,
+    "Name": "liubo",
+    "NickName": "买手1",
+    "Description": "..................",
+    "Password": "123456",
+    "Note": "深深打上",
+    "BePurchaser": true
+  },
+  {
+    "ID": 4,
+    "Name": "p2",
+    "NickName": "买手2",
+    "Description": "的",
+    "Password": "2",
+    "Image": "",
+    "BePurchaser": true
+  }
+]
