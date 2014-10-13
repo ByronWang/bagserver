@@ -27,7 +27,10 @@ tx OrderItemFlow {
     	?EstimateArrive-Datetime|预计到货时间;
     	?DeliveryArrive-Datetime|到货时间;
         ?Tracking-No|快递单号;
+        ?Trade-No;
     };
+    ?Payment;
+    ?Trade-No;
     Status|状态 OrderStatus;
     Action;
 }

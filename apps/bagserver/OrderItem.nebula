@@ -1,5 +1,5 @@
 tx OrderItem {
-	!ID;
+	@IDGenerationStrategy("time") !ID;
 	@Attach Order;
 	*&Product;
 	Quantity;

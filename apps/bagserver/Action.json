@@ -1,34 +1,52 @@
 [
   {
     "ID": 1,
+    Quick: "sendout",
     "Name": "已发布"
   },
   {
     "ID": 2,
+    Quick: "bitSucceed",
     "Name": "选中买手"
   },
   {
     "ID": 3,
+    Quick: "purchasing ",
     "Name": "开始购买"
   },
   {
     "ID": 4,
+    Quick: "purchased ",
     "Name": "购买完成"
   },
   {
     "ID": 5,
+    Quick: "delivering ",
     "Name": "开始发货"
   },
   {
     "ID": 6,
+    Quick: "delivered  ",
     "Name": "确认收货"
   },
   {
     "ID": 7,
+    Quick: "cancelPurchasing ",
     "Name": "放弃购买"
   },
   {
     "ID": 8,
+    Quick: "cancelOrder ",
     "Name": "放弃订单"
+  },
+  {
+    "ID": 9,
+    Quick: "startPay",
+    "Name": "开始支付"
+  },
+  {
+    "ID": 10,
+    Quick: "finishPay",
+    "Name": "支付完成"
   }
 ]
