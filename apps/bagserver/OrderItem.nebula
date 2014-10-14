@@ -1,6 +1,7 @@
 tx OrderItem {
 	@IDGenerationStrategy("time") !ID;
 	@Attach Order;
+        ?Datetime;
 	*&Product;
 	Quantity;
         ?Country;

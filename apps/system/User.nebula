@@ -2,11 +2,11 @@
 type User{
   !!ID;
   *Name;
-  NickName Name;
+  *NickName|昵称 Name;
   ?Description;
   Password;
   ?EMail;
   ?Note;
-  ?Image;
+  *Image;
   BePurchaser YesNo:=false;
 };
