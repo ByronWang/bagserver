@@ -1,7 +1,7 @@
 tx  Payment{
 	!ID;
-        From-User;
-        To-User;
+    From-User;
+    To-User;
 	Datetime;// 交易开始日期时间
 	Order-No;// 商户订单号
     Amount;        // 清算金额
