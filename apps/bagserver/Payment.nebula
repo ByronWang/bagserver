@@ -1,7 +1,12 @@
+@Readonly
 tx  Payment{
 	!ID;
-    From-User;
-    To-User;
+	@Authorize("Read") From-User;
+	@Authorize("Read") To-User;
+	PayType;
+	PayMethod;
+	From-AccountType;
+    To-AccountType;
 	Datetime;// 交易开始日期时间
 	Order-No;// 商户订单号
     Amount;        // 清算金额

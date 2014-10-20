@@ -1,6 +1,6 @@
 @Table("SYS_USER")
 type User{
-  !!ID;
+    @IDGenerationStrategy("time")!!ID;
   *Name;
   *NickName|昵称 Name;
   ?Description;
@@ -8,5 +8,5 @@ type User{
   ?EMail;
   ?Note;
   *Image;
-  BePurchaser YesNo:=false;
+  @Readonly BePurchaser YesNo:=false;
 };

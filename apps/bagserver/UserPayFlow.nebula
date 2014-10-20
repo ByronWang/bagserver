@@ -1,7 +1,0 @@
-tx UserPayFlow {
-    !ID;
-    @Attach User;
-    ?Payment;
-    ?Trade-No;
-    Action;
-}
