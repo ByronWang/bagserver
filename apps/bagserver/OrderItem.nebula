@@ -25,7 +25,7 @@ tx OrderItem {
 		Suggested-Price|建议价格;
 		DeliveryCost|运费 Price;
 	};
-        Suitor-Count;
+    Suitor-Count;
     Status|状态 OrderStatus;
     Action;
 };
