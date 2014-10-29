@@ -1,0 +1,7 @@
+tx ChatMessage {
+	@IDGenerationStrategy("time") !ID;
+	@Attach OrderItem;
+	Datetime;
+	User;
+	Message;
+};
