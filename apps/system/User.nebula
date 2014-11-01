@@ -9,4 +9,14 @@ type User{
   ?Note;
   *Image;
   @Readonly BePurchaser YesNo:=false;
+  ?Address|收件地址{
+      Country|国家 Name;
+      Province|省 Name;
+      City|市 Name;
+      Area|区 Name;
+      Address|详细地址 String;
+      Zip;
+      Contact Name;
+      Phone;
+  };
 };
