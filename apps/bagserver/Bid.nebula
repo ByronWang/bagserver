@@ -3,10 +3,13 @@ tx  Bid{
 	@Expand @Attach  OrderItem;
 	@GroupBy *Purchaser|买手 User;
 	Deadline|代购期限 Date;
-	Commission|佣金 Price;/*8%*/
+	Commission|佣金比例 Percent;/*8%*/
 	Suggested-Price|建议价格;
 	DeliveryCost|运费 Price;
 	DeliveryMethod|邮寄方式;
+	Product-Amount;
+	ProductCommission-Amount;
+	Amount;
 	Comment;
-        Status BidStatus;
+    Status BidStatus;
 };
