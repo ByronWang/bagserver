@@ -24,11 +24,11 @@ tx OrderItemFlow {
     	?PurchasingEnd-Datetime|采购开始时间;
     	?PurchasingEndLocation|采购开始位置 String;
     	?Actual-Price|实际价格;
-    	?Invoice-Image|小票图片;
-    	?ProductActual-Image|实际物品图片;
+    	?Invoice-Image|小票图片[];
+    	?ProductActual-Image|实际物品图片[];
     	?DeliveryStart-Datetime|发货时间;
     	?CourierFirm|快递公司 Name;
-    	?EstimateArrive-Datetime|预计到货时间;
+    	?EstimateArrive-Date|预计到货时间;
     	?DeliveryArrive-Datetime|到货时间;
         ?Tracking-No|快递单号;
         ?Trade-No;
