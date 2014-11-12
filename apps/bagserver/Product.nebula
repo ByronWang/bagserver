@@ -10,5 +10,6 @@ Brand|品牌 Name;
 ?Image|图片;
 ?Extends Content;
 Status ProductStatus;
+?CopyFrom Product;
 OrderItem;
 }
