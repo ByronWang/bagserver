@@ -48,5 +48,10 @@
     "ID": 10,
     "Quick": "finishPay",
     "Name": "支付完成"
-  }
+  },
+	{
+				"ID" : 11,
+	   			 "Quick": "confirmPay",
+				"Name" : "支付已确认"
+	}
 ]
