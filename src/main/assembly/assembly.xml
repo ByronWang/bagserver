@@ -8,7 +8,7 @@
 		<format>zip</format>
 		<format>tar.gz</format>
 	</formats>
-	<baseDirectory>bagserver</baseDirectory>
+	<baseDirectory>nebula</baseDirectory>
 	<dependencySets>
 		<dependencySet>
 			<useProjectArtifact>true</useProjectArtifact>
@@ -26,8 +26,31 @@
 			</includes>
 		</fileSet>
 		<fileSet>
-			<directory>apps</directory>
-			<outputDirectory>apps</outputDirectory>
+			<directory>src/main/resources</directory>
+			<outputDirectory>conf</outputDirectory>
+			<fileMode>0777</fileMode>
+			<includes>
+				<include>*.properties</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/resources/htdocs</directory>
+			<outputDirectory>htdocs</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>apps/system</directory>
+			<outputDirectory>apps/system</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>apps/bagserver</directory>
+			<outputDirectory>apps/bagserver</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/java/bagserver</directory>
+			<outputDirectory>apps/bagserver</outputDirectory>
+			<includes>
+				<include>*.java</include>
+			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>logs</directory>

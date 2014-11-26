@@ -1,0 +1,36 @@
+<article class="module width_full">
+	<header>
+		<h1 class="tabs_involved" >{{resourcename}}</h1>
+	</header>
+	
+	<div id="breadcrumb">
+		<a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+		<a href="#" class="tip-bottom">Form elements</a>
+		<a href="#" class="current">Common elements</a>
+	</div>
+	
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div class="widget-title">
+						<span class="icon"> <i class="icon-align-justify"></i>
+						</span>
+						<h5>文件内容</h5>
+					</div>
+					<div class="widget-content nopadding">
+						<form name="form" x-ng-submit="$save()" class="form-horizontal" novalidate>
+							<div class="control-group">
+								<textarea x-ng-model="data.code" rows="20" cols="120" x-required class="input-block-level"
+									placeholder="add Type info here"></textarea>
+							</div>
+							<div class="form-actions">
+								<input type="submit" class="btn btn-primary" x-ng-disabled="form.$invalid" value="Save changes">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</article>

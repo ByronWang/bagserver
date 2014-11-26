@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" x-ng-app="nebula">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<title>Nebula Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+[ng-cloak] {
+	display: none;
+}
+</style>
+<link rel="stylesheet" href="/css/jquery-ui.css" />
+<link rel="stylesheet" href="/theme/angularjs/unicorn/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/theme/angularjs/unicorn/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/css/colorpicker.css" />
+<link rel="stylesheet" href="/css/datepicker.css" />
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/uniform.css" />
+<link rel="stylesheet" href="/css/select2.css" />
+<link rel="stylesheet" href="/lib/angular-plugins/angular.tree.css" />
+<link rel="stylesheet" href="/theme/angularjs/unicorn/css/unicorn.main.css" />
+<link rel="stylesheet" href="/theme/angularjs/unicorn/css/unicorn.grey.css" class="skin-color" />
+<!-- Custom CSS Style -->
+<link rel="stylesheet" href="/theme/angularjs/unicorn/css/app.css">
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+<!-- Fav and touch icons -->
+</head>
+<body x-ng-controller="AppControl">
+	<div id="header">
+		<h1>
+			<a href="/u/{{LoginUserID}}"> Home </a>
+		</h1>
+	</div>
+	<div id="search">
+		<input type="text" placeholder="Search here..." />
+		<button type="submit" class="tip-right" title="Search">
+			<i class="icon-search icon-white"></i>
+		</button>
+	</div>
+	<div id="user-nav" class="navbar navbar-inverse">
+		<ul class="nav btn-group">
+			<li class="btn btn-inverse"><a title="" href="/u/{{LoginUserID}}"><i class="icon icon-home"></i> <span class="text">Home</span></a></li>
+			<li class="btn btn-inverse"><a title="" href="/u/{{LoginUserID}}/Profile"><i class="icon icon-user"></i> <span class="text">Profile</span></a></li>
+			<li class="btn btn-inverse dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i
+					class="icon icon-envelope"
+				></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a class="sAdd" title="" href="#">new message</a></li>
+					<li><a class="sInbox" title="" href="#">inbox</a></li>
+					<li><a class="sOutbox" title="" href="#">outbox</a></li>
+					<li><a class="sTrash" title="" href="#">trash</a></li>
+				</ul></li>
+			<li class="btn btn-inverse"><a href="/u/{{LoginUserID}}/Admin" class="tip-bottom" title="系统配置"><i class="icon icon-cog"></i> </a></li>
+			<li class="btn btn-inverse"><a href="/login.html" class="tip-bottom" title="登出"><i class="icon icon-share-alt"></i> </a></li>
+		</ul>
+	</div>
+	<div id="sidebar" x-jsonDataUrl="/d/MenuBar/CommonUserMenu">
+		<a href="#" class="visible-phone"><i class="icon icon-th-list"></i> 菜单</a>
+		<ul ng-cloak>
+			<li class="section"><a href=""><span>{{jsonData.Title}}</span></a></li>
+			<li x-ng-repeat="menu in jsonData.Menu" class="submenu"><a x-ng-href="#{{menu.URL | replace : '$LoginUserID$': LoginUserID}}"> <i
+					class="icon {{menu.IconName}}"
+				></i> <span>{{menu.Name}}</span> <span class="label" x-ng-show="menu.items.length > 0">{{menuGroup.items.length}}</span></a>
+				<ul x-ng-show="menuGroup.items.length > 0">
+					<li x-ng-repeat="menu in menuGroup.items"><a x-ng-href="#{{menu.URL}}"><i class="icon-edit"></i>{{menu.label}}</a></li>
+				</ul></li>
+		</ul>
+	</div>
+	<div id="style-switcher">
+		<i class="icon-arrow-left icon-white"></i> <span>Style:</span> <a href="#grey" style="background-color: #555555; border-color: #aaaaaa;"></a> <a
+			href="#light-blue" style="background-color: #8399b0;"
+		></a> <a href="#blue" style="background-color: #2D2F57;"></a> <a href="#red" style="background-color: #673232;"></a> <a href="#red-green"
+			style="background-image: url('/img/red-green.png'); background-repeat: no-repeat;"
+		></a>
+	</div>
+	<div id="content" x-nb-view>
+		<article class="module width_full">
+			<header>
+				<h1 class="tabs_involved" ng-cloak>Welcome</h1>
+			</header>
+			<div id="breadcrumb" ng-cloak>
+				<a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#"
+					class="current"
+				>Common elements</a>
+			</div>
+			<div class="container-fluid">
+				<div class="row-fluid" ng-cloak>
+					<div class="span12">
+						<div class="widget-box">
+							<div class="widget-title">
+								<span class="icon"> <i class="icon-align-justify"></i>
+								</span>
+								<h5>Welcome</h5>
+							</div>
+							<div class="widget-content nopadding"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+	<!-- Le javascript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<!-- Reference Lib -->
+	<script src="/lib/jquery/jquery-1.7.2.min.js"></script>
+	<script src="/js/jquery.ui.custom.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/bootstrap-colorpicker.js"></script>
+	<script src="/js/bootstrap-datepicker.js"></script>
+	<script src="/js/jquery.uniform.js"></script>
+	<script src="/js/select2.min.js"></script>
+	<script src="/theme/angularjs/unicorn/js/unicorn.form_common.js"></script>
+	<script src="/theme/angularjs/unicorn/js/unicorn.js"></script>
+	<!-- Angular Lib -->
+	<script src="/lib/angular/angular.js"></script>
+	<script src="/lib/angular/angular-cookies.js"></script>
+	<script src="/lib/angular/angular-resource.js"></script>
+	<!-- Angular Plugin -->	
+	<script src="/lib/angular-plugins/angular.tree.js"></script>
+	
+	<!-- App -->
+	<script src="/theme/angularjs/unicorn/js/directives.js"></script>
+	<script src="/theme/angularjs/unicorn/js/controllers.js"></script>
+	<script src="/theme/angularjs/unicorn/js/filters.js"></script>
+	<script src="/theme/angularjs/unicorn/js/services.js"></script>
+	<script src="/theme/angularjs/unicorn/js/appHome.js"></script>
+</body>
+</html>

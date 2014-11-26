@@ -1,11 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>bag</groupId>
 	<artifactId>bagserver</artifactId>
-	<packaging>jar</packaging>
-	<name>bag Maven</name>
-	<url>http://maven.apache.org</url>
+	<version>1.1.0</version>
 	<build>
 		<plugins>
 			<plugin>
@@ -15,7 +13,7 @@
 					<source>1.6</source>
 					<target>1.6</target>
 					<encoding>UTF-8</encoding>
-					<compilerArgument>-g:none</compilerArgument>
+					<compilerArgument>${compiler.compilerArgument}</compilerArgument>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -25,22 +23,26 @@
 				<executions>
 					<execution>
 						<phase>package</phase>
+						<configuration>
+							<excludes>
+							</excludes>
+						</configuration>
 					</execution>
 				</executions>
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>http.startup.JettyServer</mainClass>
+							<mainClass>nebula.http.startup.JettyServer</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
 			</plugin>
-			<!-- <plugin>
+			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.4</version>
 				<configuration>
 					<descriptors>
-						<descriptor>src/main/assembly/assembly.xml</descriptor>
+						<descriptor>${assembly.descriptor}</descriptor>
 					</descriptors>
 				</configuration>
 				<executions>
@@ -52,27 +54,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> -->
-			<plugin>
-			    <groupId>com.pyx4me</groupId>
-			    <artifactId>proguard-maven-plugin</artifactId>
-			    <executions>
-			        <execution>
-			            <phase>package</phase>
-			            <goals>
-			                <goal>proguard</goal>
-			            </goals>
-			        </execution>
-			    </executions>
-			    <configuration>
-			        <obfuscate>true</obfuscate>
-			        <proguardInclude>${basedir}/proguard.pro</proguardInclude>
-			        <libs>
-			            <lib>${java.home}/lib/rt.jar</lib>
-			            <lib>${java.home}/lib/jsse.jar</lib>
-			            <lib>${java.home}/lib/jce.jar</lib>
-			        </libs>
-			    </configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -82,22 +63,34 @@
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
 			<scope>test</scope>
+
 		</dependency>
-		<!-- <dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>nebula</groupId>
-			<artifactId>nebula-compiler</artifactId>
-			<version>1.0.1</version>
+			<artifactId>nebula-lang</artifactId>
+			<version>1.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>nebula</groupId>
 			<artifactId>nebula-engine</artifactId>
 			<version>1.0.1</version>
-		</dependency>-->
+		</dependency>
+		<dependency>
+			<groupId>h.ji</groupId>
+			<artifactId>bag-unionpay-server</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
-	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.test.skip>true</maven.test.skip>
+		<compiler.compilerArgument></compiler.compilerArgument>
+		<assembly.descriptor> src/main/assembly/assembly.xml</assembly.descriptor>
 	</properties>
-	<version>0.8</version>
 </project>

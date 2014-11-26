@@ -1,0 +1,23 @@
+type Person {
+	!Name;
+	Full-Name;
+	?Given-Name;
+	?Family-Name;
+	?AlternateNames[] Name;
+	?Description;
+	Sex Attr;
+	?DateOfBirth Date;
+	?Age;
+	?Home{
+		Street Name;
+		Neighborhood String;
+		City Name;
+		State Name;
+		PostalCode Name;
+		Country Name;
+		PhotoURL String;
+		ProfileURLs[] String;
+	};
+	@GroupBy Company;
+	EMail;
+};

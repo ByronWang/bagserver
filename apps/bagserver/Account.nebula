@@ -1,0 +1,7 @@
+@Readonly
+tx  Account{
+	!ID;
+	@Authorize("Read") User;
+	Deposit-Amount;
+	Peronal-Amount;
+};

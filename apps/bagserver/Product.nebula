@@ -1,0 +1,15 @@
+type Product{
+!!ID;
+*Name;
+?Description;
+Country|国家;
+@GroupBy CategoryLevel1|分类 Category;
+Category|种类 Category;
+Expected-Price|预想价格;
+Brand|品牌 Name;
+?Image|图片;
+?Extends Content;
+Status ProductStatus;
+?CopyFrom Product;
+OrderItem;
+}

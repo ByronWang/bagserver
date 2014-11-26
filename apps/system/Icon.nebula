@@ -1,0 +1,5 @@
+@Table("SYS_ICON")
+type Icon{
+  !Name; 
+  IconGroup Attr;
+};

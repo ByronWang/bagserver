@@ -1,0 +1,17 @@
+[
+  {
+    "ID": 1,
+    "Quick": "Personal",
+    "Name": "个人账户"
+  },
+  {
+    "ID": 2,
+    "Quick": "Bank",
+    "Name": "银行"
+  },
+  {
+    "ID": 3,
+    "Quick": "Deposit",
+    "Name": "保证金"
+  }
+]

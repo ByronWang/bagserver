@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" x-ng-app="appAdmin">
+  <head>
+    <meta charset="utf-8">
+    <title>Nebula Admin</title>
+    
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+	<link rel="stylesheet" href="css/signin.css" />
+	<link rel="stylesheet" type="text/css" href="css/theme.css">
+	<link rel="stylesheet" href="/css/jquery-ui.css" />
+	<link rel="stylesheet" href="/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/css/uniform.css" />
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body x-ng-controller="AppControl">
+  
+  <div id="box_login">
+        <div class="container">
+            <div class="span12 box_wrapper">
+                <div class="span12 box">
+                    <div>
+                        <div class="head">
+                            <h4>使用账号登陆</h4>
+                        </div>
+                        <div class="form">
+                        	<form name="formLogin" id="formLogin" action="f/login.do" method="post">
+                                <input name="username"  type="text" placeholder="用户名">
+                                <input name="password"  type="password" placeholder="密码">
+                                <div class="remember">
+                                    <div class="left">
+                                        <input id="remember_me" type="checkbox">
+                                        <label for="remember_me">记住我</label>
+                                    </div>
+                                    <div class="right">
+                                        <a href="reset.html">忘记密码?</a>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn" value="登录">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <p class="already">还没有帐号? <a href="signup.html"> 申请帐号</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+            <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

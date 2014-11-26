@@ -1,0 +1,4 @@
+type ProductStatus|状态{
+  !ID;
+  *Name;
+}

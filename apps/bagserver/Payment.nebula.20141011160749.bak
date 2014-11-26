@@ -1,0 +1,11 @@
+tx  Payment{
+	!ID;
+	Datetime;// 交易开始日期时间
+	Order-No;// 商户订单号
+    Amount;        // 清算金额
+	Description;
+	Trade-No; // 交易流水号
+	Deadline-Datetime;// 交易开始日期时间
+	Trans-Status;// 交易状态
+    SettleMonth String;      // 清算日期（Format:MMDD）
+};

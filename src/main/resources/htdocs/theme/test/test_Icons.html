@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Nebula Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/forms.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <link href="css/icons-de-essen.css" rel="stylesheet">
+    
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<script src="lib/jquery/jquery-1.8.2.min.js"></script>
+
+    
+    <style type="text/css">
+    div.small{
+    	overflow: visible;
+    }
+    div.small a{
+    	display:inline-block;
+    	white-space: nowrap;
+    	line-height:22px;
+    	height:24px;
+    	width: 80px;
+    	overflow: hidden;
+    	font-size: 10%;
+    }
+    div.normal a{
+    	display:inline-block;
+    	white-space: nowrap;
+    	line-height:54px;
+    	height: 54px;
+    	width: 80px;
+    	overflow: hidden;
+    	font-size: 10%;
+    }
+[class^="icon-"].icon-normal,
+[class*=" icon-"].icon-normal {
+	border: 1px red solid;
+}
+    </style>
+    <script>
+    	jQuery.noConflict();    
+     	jQuery(document).ready(function($){
+    		$("div.small a").click(function(){
+    			var text = $(this).html();
+    			$("#text-small-show").append('<a href="">' + text + '</a><br>');
+    			$("#text-small").text($("#text-small-show").html());
+    			return false;
+    		});
+    		$("#text-small-show a").live("click",function(){
+    			$(this).next().remove();
+    			$(this).remove();
+    			$("#text-small").text($("#text-small-show").html());
+    			return false;
+    		});
+    		
+
+    		$("div.normal a").click(function(){
+    			var text = $(this).html();
+    			$("#text-normal-show").append('<a href="">' + text + '</a><br>');
+    			$("#text-normal").text($("#text-normal-show").html());
+    			return false;
+    		});
+    		$("#text-normal-show a").live("click",function(){
+    			$(this).next().remove();
+    			$(this).remove();
+    			$("#text-normal").text($("#text-normal-show").html());
+    			return false;
+    		});
+    	});
+    </script>
+  </head>
+  <body x-ng-controller="AppControl" style="padding: 1em;">
+    <br>
+    <div>
+    <div class="small" style="position:relative; float: left;">
+<a href=""> <i class="icon-comment icon-small"></i> comment</a>		<a href=""> <i class="icon-invoice icon-small"></i> invoice</a>		<a href=""> <i class="icon-special-offer icon-small"></i> special-offer</a>		<a href=""> <i class="icon-contact icon-small"></i> contact</a>		<a href=""> <i class="icon-business-contact icon-small"></i> business-contact</a>		<br>
+<a href=""> <i class="icon-email icon-small"></i> email</a>		<a href=""> <i class="icon-cv icon-small"></i> cv</a>		<a href=""> <i class="icon-limited-edition icon-small"></i> limited-edition</a>		<a href=""> <i class="icon-suppliers icon-small"></i> suppliers</a>		<a href=""> <i class="icon-networking icon-small"></i> networking</a>		<br>
+<a href=""> <i class="icon-delicious icon-small"></i> delicious</a>		<a href=""> <i class="icon-graphic-design icon-small"></i> graphic-design</a>		<a href=""> <i class="icon-payment-card icon-small"></i> payment-card</a>		<a href=""> <i class="icon-process icon-small"></i> process</a>		<a href=""> <i class="icon-communication icon-small"></i> communication</a>		<br>
+<a href=""> <i class="icon-twitter icon-small"></i> twitter</a>		<a href=""> <i class="icon-product-design icon-small"></i> product-design</a>		<a href=""> <i class="icon-basket icon-small"></i> basket</a>		<a href=""> <i class="icon-project icon-small"></i> project</a>		<a href=""> <i class="icon-statistics icon-small"></i> statistics</a>		<br>
+<a href=""> <i class="icon-pen icon-small"></i> pen</a>		<a href=""> <i class="icon-illustration icon-small"></i> illustration</a>		<a href=""> <i class="icon-product icon-small"></i> product</a>		<a href=""> <i class="icon-publish icon-small"></i> publish</a>		<a href=""> <i class="icon-advertising icon-small"></i> advertising</a>		<br>
+<a href=""> <i class="icon-star icon-small"></i> star</a>		<a href=""> <i class="icon-drawings icon-small"></i> drawings</a>		<a href=""> <i class="icon-category icon-small"></i> category</a>		<a href=""> <i class="icon-library icon-small"></i> library</a>		<a href=""> <i class="icon-administratives-docs icon-small"></i> administratives-docs</a>		<br>
+<a href=""> <i class="icon-heart icon-small"></i> heart</a>		<a href=""> <i class="icon-brainstorming icon-small"></i> brainstorming</a>		<a href=""> <i class="icon-attributes icon-small"></i> attributes</a>		<a href=""> <i class="icon-cost icon-small"></i> cost</a>		<a href=""> <i class="icon-billing icon-small"></i> billing</a>		<br>
+<a href=""> <i class="icon-pencil icon-small"></i> pencil</a>		<a href=""> <i class="icon-denote icon-small"></i> denote</a>		<a href=""> <i class="icon-zoom icon-small"></i> zoom</a>		<a href=""> <i class="icon-ticket icon-small"></i> ticket</a>		<a href=""> <i class="icon-flag icon-small"></i> flag</a>		<br>
+<a href=""> <i class="icon-calendar icon-small"></i> calendar</a>		<a href=""> <i class="icon-photography icon-small"></i> photography</a>		<a href=""> <i class="icon-order icon-small"></i> order</a>		<a href=""> <i class="icon-milestone icon-small"></i> milestone</a>		<a href=""> <i class="icon-refresh icon-small"></i> refresh</a>		<br>
+<a href=""> <i class="icon-date icon-small"></i> date</a>		<a href=""> <i class="icon-freelance icon-small"></i> freelance</a>		<a href=""> <i class="icon-shipping icon-small"></i> shipping</a>		<a href=""> <i class="icon-issue icon-small"></i> issue</a>		<a href=""> <i class="icon-world icon-small"></i> world</a>		<br>
+<a href=""> <i class="icon-sitemap icon-small"></i> sitemap</a>		<a href=""> <i class="icon-full-time icon-small"></i> full-time</a>		<a href=""> <i class="icon-credit-card icon-small"></i> credit-card</a>		<a href=""> <i class="icon-phone icon-small"></i> phone</a>		<a href=""> <i class="icon-lock icon-small"></i> lock</a>		<br>
+<a href=""> <i class="icon-search icon-small"></i> search</a>		<a href=""> <i class="icon-finished-work icon-small"></i> finished-work</a>		<a href=""> <i class="icon-paypal icon-small"></i> paypal</a>		<a href=""> <i class="icon-plus icon-small"></i> plus</a>		<a href=""> <i class="icon-database icon-small"></i> database</a>		<br>
+<a href=""> <i class="icon-feed icon-small"></i> feed</a>		<a href=""> <i class="icon-current-work icon-small"></i> current-work</a>		<a href=""> <i class="icon-login icon-small"></i> login</a>		<a href=""> <i class="icon-orders icon-small"></i> orders</a>		<a href=""> <i class="icon-link icon-small"></i> link</a>		<br>
+<a href=""> <i class="icon-user icon-small"></i> user</a>		<a href=""> <i class="icon-collaboration icon-small"></i> collaboration</a>		<a href=""> <i class="icon-logout icon-small"></i> logout</a>		<a href=""> <i class="icon-product icon-small"></i> product</a>		<a href=""> <i class="icon-tag icon-small"></i> tag</a>		<br>
+<a href=""> <i class="icon-folder icon-small"></i> folder</a>		<a href=""> <i class="icon-upcoming-work icon-small"></i> upcoming-work</a>		<a href=""> <i class="icon-edit icon-small"></i> edit</a>		<a href=""> <i class="icon-check icon-small"></i> check</a>		<a href=""> <i class="icon-bookmark icon-small"></i> bookmark</a>		<br>
+<a href=""> <i class="icon-busy icon-small"></i> busy</a>		<a href=""> <i class="icon-credit icon-small"></i> credit</a>		<a href=""> <i class="icon-my-account icon-small"></i> my-account</a>		<a href=""> <i class="icon-customers icon-small"></i> customers</a>		<a href=""> <i class="icon-home icon-small"></i> home</a>		<br>
+<a href=""> <i class="icon-free-for-job icon-small"></i> free-for-job</a>		<a href=""> <i class="icon-bank icon-small"></i> bank</a>		<a href=""> <i class="icon-setting icon-small"></i> setting</a>		<a href=""> <i class="icon-archives icon-small"></i> archives</a>		<a href=""> <i class="icon-config icon-small"></i> config</a>		<br>
+<a href=""> <i class="icon-showreel icon-small"></i> showreel</a>		<a href=""> <i class="icon-bestseller icon-small"></i> bestseller</a>		<a href=""> <i class="icon-sign-in icon-small"></i> sign-in</a>		<a href=""> <i class="icon-old-versions icon-small"></i> old-versions</a>		<a href=""> <i class="icon-print icon-small"></i> print</a>		<br>
+<a href=""> <i class="icon-hire-me icon-small"></i> hire-me</a>		<a href=""> <i class="icon-featured icon-small"></i> featured</a>		<a href=""> <i class="icon-sign-out icon-small"></i> sign-out</a>		<a href=""> <i class="icon-document-library icon-small"></i> document-library</a>		<a href=""> <i class="icon-address icon-small"></i> address</a>		<br>
+<a href=""> <i class="icon-future-projects icon-small"></i> future-projects</a>		<a href=""> <i class="icon-preminum icon-small"></i> preminum</a>		<a href=""> <i class="icon-sign-up icon-small"></i> sign-up</a>		<a href=""> <i class="icon-consulting icon-small"></i> consulting</a>		<a href=""> <i class="icon-lightbulb icon-small"></i> lightbulb</a>		<br>
+</div>
+<div>
+<div id="text-small-show" class="span5" style="height: 200px;border: 1px solid gray; padding: 1em;"></div>
+<div id="text-small-show" class="span5" style="height: 200px;"><textarea id="text-small" rows="5" class="input-block-level"></textarea></div>
+</div></div>
+<br>
+<br>
+<br>
+<br style="clear: both;">
+<hr>
+<div class="normal" style="position:relative; float: left;">
+
+<a href=""> <i class="icon-comment icon-normal"></i> comment</a>	<a href=""> <i class="icon-sitemap icon-normal"></i> sitemap</a>	<a href=""> <i class="icon-invoice icon-normal"></i> invoice</a>	<a href=""> <i class="icon-full-time icon-normal"></i> full-time</a>	<a href=""> <i class="icon-special-offer icon-normal"></i> special-offer</a>	<a href=""> <i class="icon-credit-card icon-normal"></i> credit-card</a>	<a href=""> <i class="icon-contact icon-normal"></i> contact</a>	<a href=""> <i class="icon-phone icon-normal"></i> phone</a>	<a href=""> <i class="icon-business-contact icon-normal"></i> business-contact</a>	<a href=""> <i class="icon-lock icon-normal"></i> lock</a>	<br>
+<a href=""> <i class="icon-email icon-normal"></i> email</a>	<a href=""> <i class="icon-search icon-normal"></i> search</a>	<a href=""> <i class="icon-cv icon-normal"></i> cv</a>	<a href=""> <i class="icon-finished-work icon-normal"></i> finished-work</a>	<a href=""> <i class="icon-limited-edition icon-normal"></i> limited-edition</a>	<a href=""> <i class="icon-paypal icon-normal"></i> paypal</a>	<a href=""> <i class="icon-suppliers icon-normal"></i> suppliers</a>	<a href=""> <i class="icon-plus icon-normal"></i> plus</a>	<a href=""> <i class="icon-networking icon-normal"></i> networking</a>	<a href=""> <i class="icon-database icon-normal"></i> database</a>	<br>
+<a href=""> <i class="icon-delicious icon-normal"></i> delicious</a>	<a href=""> <i class="icon-feed icon-normal"></i> feed</a>	<a href=""> <i class="icon-graphic-design icon-normal"></i> graphic-design</a>	<a href=""> <i class="icon-current-work icon-normal"></i> current-work</a>	<a href=""> <i class="icon-payment-card icon-normal"></i> payment-card</a>	<a href=""> <i class="icon-login icon-normal"></i> login</a>	<a href=""> <i class="icon-process icon-normal"></i> process</a>	<a href=""> <i class="icon-orders icon-normal"></i> orders</a>	<a href=""> <i class="icon-communication icon-normal"></i> communication</a>	<a href=""> <i class="icon-link icon-normal"></i> link</a>	<br>
+<a href=""> <i class="icon-twitter icon-normal"></i> twitter</a>	<a href=""> <i class="icon-user icon-normal"></i> user</a>	<a href=""> <i class="icon-product-design icon-normal"></i> product-design</a>	<a href=""> <i class="icon-collaboration icon-normal"></i> collaboration</a>	<a href=""> <i class="icon-basket icon-normal"></i> basket</a>	<a href=""> <i class="icon-logout icon-normal"></i> logout</a>	<a href=""> <i class="icon-project icon-normal"></i> project</a>	<a href=""> <i class="icon-product icon-normal"></i> product</a>	<a href=""> <i class="icon-statistics icon-normal"></i> statistics</a>	<a href=""> <i class="icon-tag icon-normal"></i> tag</a>	<br>
+<a href=""> <i class="icon-pen icon-normal"></i> pen</a>	<a href=""> <i class="icon-folder icon-normal"></i> folder</a>	<a href=""> <i class="icon-illustration icon-normal"></i> illustration</a>	<a href=""> <i class="icon-upcoming-work icon-normal"></i> upcoming-work</a>	<a href=""> <i class="icon-product icon-normal"></i> product</a>	<a href=""> <i class="icon-edit icon-normal"></i> edit</a>	<a href=""> <i class="icon-publish icon-normal"></i> publish</a>	<a href=""> <i class="icon-check icon-normal"></i> check</a>	<a href=""> <i class="icon-advertising icon-normal"></i> advertising</a>	<a href=""> <i class="icon-bookmark icon-normal"></i> bookmark</a>	<br>
+<a href=""> <i class="icon-star icon-normal"></i> star</a>	<a href=""> <i class="icon-busy icon-normal"></i> busy</a>	<a href=""> <i class="icon-drawings icon-normal"></i> drawings</a>	<a href=""> <i class="icon-credit icon-normal"></i> credit</a>	<a href=""> <i class="icon-category icon-normal"></i> category</a>	<a href=""> <i class="icon-my-account icon-normal"></i> my-account</a>	<a href=""> <i class="icon-library icon-normal"></i> library</a>	<a href=""> <i class="icon-customers icon-normal"></i> customers</a>	<a href=""> <i class="icon-administratives-docs icon-normal"></i> administratives-docs</a>	<a href=""> <i class="icon-home icon-normal"></i> home</a>	<br>
+<a href=""> <i class="icon-heart icon-normal"></i> heart</a>	<a href=""> <i class="icon-free-for-job icon-normal"></i> free-for-job</a>	<a href=""> <i class="icon-brainstorming icon-normal"></i> brainstorming</a>	<a href=""> <i class="icon-bank icon-normal"></i> bank</a>	<a href=""> <i class="icon-attributes icon-normal"></i> attributes</a>	<a href=""> <i class="icon-setting icon-normal"></i> setting</a>	<a href=""> <i class="icon-cost icon-normal"></i> cost</a>	<a href=""> <i class="icon-archives icon-normal"></i> archives</a>	<a href=""> <i class="icon-billing icon-normal"></i> billing</a>	<a href=""> <i class="icon-config icon-normal"></i> config</a>	<br>
+<a href=""> <i class="icon-pencil icon-normal"></i> pencil</a>	<a href=""> <i class="icon-showreel icon-normal"></i> showreel</a>	<a href=""> <i class="icon-denote icon-normal"></i> denote</a>	<a href=""> <i class="icon-bestseller icon-normal"></i> bestseller</a>	<a href=""> <i class="icon-zoom icon-normal"></i> zoom</a>	<a href=""> <i class="icon-sign-in icon-normal"></i> sign-in</a>	<a href=""> <i class="icon-ticket icon-normal"></i> ticket</a>	<a href=""> <i class="icon-old-versions icon-normal"></i> old-versions</a>	<a href=""> <i class="icon-flag icon-normal"></i> flag</a>	<a href=""> <i class="icon-print icon-normal"></i> print</a>	<br>
+<a href=""> <i class="icon-calendar icon-normal"></i> calendar</a>	<a href=""> <i class="icon-hire-me icon-normal"></i> hire-me</a>	<a href=""> <i class="icon-photography icon-normal"></i> photography</a>	<a href=""> <i class="icon-featured icon-normal"></i> featured</a>	<a href=""> <i class="icon-order icon-normal"></i> order</a>	<a href=""> <i class="icon-sign-out icon-normal"></i> sign-out</a>	<a href=""> <i class="icon-milestone icon-normal"></i> milestone</a>	<a href=""> <i class="icon-document-library icon-normal"></i> document-library</a>	<a href=""> <i class="icon-refresh icon-normal"></i> refresh</a>	<a href=""> <i class="icon-address icon-normal"></i> address</a>	<br>
+<a href=""> <i class="icon-date icon-normal"></i> date</a>	<a href=""> <i class="icon-future-projects icon-normal"></i> future-projects</a>	<a href=""> <i class="icon-freelance icon-normal"></i> freelance</a>	<a href=""> <i class="icon-preminum icon-normal"></i> preminum</a>	<a href=""> <i class="icon-shipping icon-normal"></i> shipping</a>	<a href=""> <i class="icon-sign-up icon-normal"></i> sign-up</a>	<a href=""> <i class="icon-issue icon-normal"></i> issue</a>	<a href=""> <i class="icon-consulting icon-normal"></i> consulting</a>	<a href=""> <i class="icon-world icon-normal"></i> world</a>	<a href=""> <i class="icon-lightbulb icon-normal"></i> lightbulb</a>	<br>
+
+<br>
+    </div>
+<div>
+	<div id="text-normal-show" class="span5" style="height: 200px;border: 1px solid gray; padding: 1em;"></div>
+	<textarea id="text-normal" rows="5" class="input-xlarge"></textarea>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<script src="lib/bootstrap/bootstrap.js"></script>
+
+  </body>
+</html>

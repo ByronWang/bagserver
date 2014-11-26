@@ -1,4 +1,10 @@
-/target
-
+/bin
+/gen
 /.settings
-*.bak
+/target
+/logs
+
+/tmp
+
+/*.log
+/db

@@ -1,0 +1,4 @@
+type BidStatus|状态{
+  !ID;
+  *Name;
+}

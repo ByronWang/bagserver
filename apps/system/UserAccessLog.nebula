@@ -1,0 +1,9 @@
+@Table("SYS_ACCESSLOG")
+tx UserAccessLog{
+	!ID;
+	User;
+	?UserAction Attr;
+	?RemoteAddr String;
+	?RemoteHost Host;
+	Timestamp;
+};

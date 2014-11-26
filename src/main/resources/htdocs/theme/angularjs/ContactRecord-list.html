@@ -1,0 +1,73 @@
+<article class="module width_full">
+	<header>
+		<h1 class="tabs_involved">交流记录</h1>
+	</header>
+	<div id="breadcrumb">
+		<a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">交流记录</a>
+	</div>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div class="widget-title">
+						<span class="icon"> <i class="icon-align-justify"></i>
+						</span>						
+						
+						<ul class="nav nav-tabs">
+							<li x-ng-repeat="c in companyList | limitTo:8" x-ng-Class="getActive(c.Name)"><a href="" x-ng-click="data.CompanyName=c.Name;refresh();">{{c.Name}}</a>
+							</li>
+							<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">All<b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li x-ng-repeat="c in companyList" x-ng-Class="getActive(c.Name)"><a tabindex="-1" href="" x-ng-click="data.CompanyName=c.Name;refresh();">{{c.Name}}</a>
+									</li>
+								</ul></li>
+						</ul>
+					</div>
+					<div class="widget-content nopadding">
+						<form name="form" x-ng-submit="addContactRecord()" class="form-horizontal" novalidate>
+							<div class="control-group" style="clear: both;">
+								<label class="control-label">客户名称</label>
+								<div class="controls">
+									<select x-ng-model="data.PersonName" x-ng-options="c.Name as c.Name for c in personList" required></select>
+								</div>
+							</div>
+							<div class="control-group" style="clear: both;">
+								<label class="control-label">交流内容</label>
+								<div class="controls">
+									<textarea x-ng-model="data.Content" cols="120" rows="4" class="span6" placeholder="请在此添加交流记录" required></textarea>
+								</div>
+							</div>
+							<div class="form-actions">
+								<input type="submit" class="btn btn-primary" x-ng-disabled="form.$invalid" value="添加">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div class="widget-title">
+						<span class="icon"> <i class="icon-align-justify"></i>
+						</span>
+						<h5>历史记录</h5>
+					</div>
+					<div class="widget-content nopadding">
+						<ul class="unstyled recent-posts">
+							<li x-ng-repeat="contactRecord in contactRecords | orderBy:'-LastUpdated'">
+								<div class="user-thumb"><i class="icon icon-user" ></i> </div>
+								<div class="article-post done-{{contactRecord.Done}}">
+								<span class="user-info">
+									{{contactRecord.PersonName}} {{contactRecord.LastUpdated}} &nbsp; {{contactRecord.CompanyName}}			[[ {{contactRecord.ID}}]]						
+								</span>
+									<p>{{contactRecord.Content}}</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</article>

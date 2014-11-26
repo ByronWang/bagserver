@@ -1,0 +1,28 @@
+tx OrderItem {
+	!ID;
+	@Attach Order;
+	*&Product;
+	Quantity;
+	Customer|买家 User;
+	Purchaser|买手 User;
+	?Address|收件地址{
+		Country|国家 Name;
+		Province|省 Name;
+		City|市 Name;
+		Area|区 Name;
+		Address|详细地址 String;
+		Zip;
+		Contact Name;
+		Phone;
+	};
+	Bid{
+		!ID;
+		*Purchaser|买手 User;
+		Commission|佣金 Price;
+		DeadLine|期限 Date;
+		Suggested-Price|建议价格;
+		DeliveryCost|运费 Price;
+	};
+    Status|状态 OrderStatus;
+    Action;
+};

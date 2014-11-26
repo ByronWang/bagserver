@@ -1,0 +1,10 @@
+@Table("SYS_MENU")
+type Menu{
+	%Parent Menu;
+	!Name;
+	?Description;
+	?Icon;
+	MenuLevel Attr;
+	URL;
+	?Help;
+};
