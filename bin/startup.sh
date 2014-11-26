@@ -12,4 +12,4 @@ fi
 touch "$BAG_OUT"
 
 cd ..
-java -cp .:lib/*:conf http.startup.JettyServer >> "$BAG_OUT" 2>&1 &
+java -cp .:lib/*:conf nebula.http.startup.JettyServer >> "$BAG_OUT" 2>&1 &

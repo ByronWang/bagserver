@@ -17,5 +17,5 @@ echo This environment variable is needed to run this program
 goto end
 :okHome
 
-java -server -cp .;lib\*;conf\* http.startup.JettyServer
+java -server -cp .;lib\*;conf\* nebula.http.startup.JettyServer
 
