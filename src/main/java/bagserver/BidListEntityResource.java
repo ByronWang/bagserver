@@ -14,7 +14,7 @@ import nebula.data.Entity;
 import nebula.data.TransactionCaller;
 import nebula.data.impl.EditableEntity;
 import nebula.http.Application;
-import nebula.http.resource.EntityListResouce;
+import nebula.http.resource.rest.EntityListResouce;
 import util.FileUtil;
 
 public class BidListEntityResource extends EntityListResouce {

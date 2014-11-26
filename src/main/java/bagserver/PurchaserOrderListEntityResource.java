@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import nebula.data.DataStore;
 import nebula.data.Entity;
 import nebula.http.Application;
-import nebula.http.resource.EntityListResouce;
+import nebula.http.resource.rest.EntityListResouce;
 
 import org.eclipse.jetty.util.URIUtil;
 
