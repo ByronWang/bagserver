@@ -24,6 +24,7 @@ import nebula.http.Application;
 import nebula.http.resource.rest.EntityListResouce;
 
 import org.joda.time.DateTime;
+import org.joda.time.Hours;
 
 import util.FileUtil;
 import cn.xj.bag.server.manager.UnionpayService;
@@ -126,6 +127,9 @@ public class OrderItemFlowListEntityResource extends EntityListResouce {
                             session.add(bidStore, bid);
                         }
 
+                        Entity itemProduct = (EditableEntity) item.getEntity("Product");
+                        itemProduct.put("Price", bidSucceed.get("SuggestedPrice"));
+                        
                         item.put("PurchaserID", bidSucceed.get("PurchaserID"));
                         item.put("Bid", bidSucceed);
 
@@ -215,6 +219,14 @@ public class OrderItemFlowListEntityResource extends EntityListResouce {
                         break;
                     case 4:// "购买完成"
                         exts.put("PurchasingEndDatetime", new DateTime());
+
+                        DateTime begin = exts.get("PurchasingStartDatetime");
+                        DateTime end = exts.get("PurchasingEndDatetime");
+                        exts.put("PurchasingDuration", (long)Hours.hoursBetween(begin,end).getHours());
+
+                        itemProduct = (EditableEntity) item.getEntity("Product");
+                        itemProduct.put("Price", exts.get("ActualPrice"));
+                        
                         session.add(stepStore, step);
                         item.put("StatusID", step.get("StatusID"));
                         item.put("StatusName", step.get("StatusName"));
@@ -232,7 +244,7 @@ public class OrderItemFlowListEntityResource extends EntityListResouce {
                     case 6:// "确认收货"
                         exts.put("DeliveryArriveDatetime", new DateTime());
                         EditableEntity product = new EditableEntity();
-                        Entity itemProduct = (EditableEntity) item.getEntity("Product");
+                        itemProduct = (EditableEntity) item.getEntity("Product");
                         product.extend(itemProduct);
                         product.put("OrderItemID", itemID);
                         session.add(productStore, product);
