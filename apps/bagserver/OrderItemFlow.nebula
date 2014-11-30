@@ -19,10 +19,17 @@ tx OrderItemFlow {
     ?Extends{
     	?BidSucceed-Datetime|买手选定时间;
     	?CancelOrder-Datetime|放弃订单时间;
+    	?CancelOrder-Comment|放弃订单原因;
     	?CancelPurchasing-Datetime|采购放弃时间;
+    	?CancelPurchasing-Comment|采购放弃原因;
     	?PurchasingStart-Datetime|采购结束时间;
     	?PurchasingEnd-Datetime|采购开始时间;
-    	?PurchasingEndLocation|采购开始位置 String;
+    	?PurchasingDuration|购买时长 Long;
+    	?PurchasingEndLatitude|采购完成经度 Decimal;
+    	?PurchasingEndLongitude|采购完成维度 Decimal;
+    	?PurchasingEndCountryRegion|采购完成国家地区 Name;
+    	?PurchasingEndAdminDistrict|采购完成一级行政区 Name;
+    	?PurchasingEndAdminDistrict2|采购完成二级行政区维度 Name;
     	?Actual-Price|实际价格;
     	?Invoice-Image|小票图片[];
     	?ProductActual-Image|实际物品图片[];
