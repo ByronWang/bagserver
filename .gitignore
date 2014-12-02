@@ -1,10 +1,12 @@
-/bin
 /gen
 /.settings
 /target
 /logs
 
+/db
 /tmp
 
 /*.log
-/db
+/uploads
+*.bak
+*.log
