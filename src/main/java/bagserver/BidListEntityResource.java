@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.joda.time.DateTime;
+
 import nebula.data.DataSession;
 import nebula.data.DataStore;
 import nebula.data.Entity;
@@ -61,8 +63,10 @@ public class BidListEntityResource extends EntityListResouce {
 					} else {
 						cnt = 1L;
 					}
+					
 					item.put("SuitorCount", cnt);
-
+					item.put("LastUpdated", new DateTime());
+					
 					session.add(itemStore, item);
 					session.add(datastoreHolder, bid);
 					session.flush();

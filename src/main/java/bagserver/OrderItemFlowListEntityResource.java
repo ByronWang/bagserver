@@ -281,6 +281,7 @@ public class OrderItemFlowListEntityResource extends EntityListResouce {
 						item.put("StatusName", statusStore.get((Long) item.get("StatusID")).get("Name"));
 						break;
 					}
+					item.put("LastUpdated", new DateTime());
 					session.add(itemStore, item);
 					session.flush();
 

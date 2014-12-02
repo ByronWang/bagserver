@@ -89,7 +89,7 @@ public class PaymentListEntityResource extends AbstractResouce {
 					Long toAccountType = payment.get("ToAccountTypeID");
 					if (userID.equals(fromUserID) && (fromAccountType.equals(2L) || fromAccountType.equals(1L))) {
 						userPayments.add(payment);
-					} else if (userID.equals(toUserID) && toAccountType.equals(2L) || toAccountType.equals(1L)) {
+					} else if (userID.equals(toUserID) && (toAccountType.equals(2L) || toAccountType.equals(1L))) {
 						userPayments.add(payment);
 					}
 				}

@@ -41,12 +41,12 @@ public class BalanceEntityResource extends AbstractResouce {
 			Long toAccountType = payment.get("ToAccountTypeID");
 			BigDecimal amount = payment.get("Amount");
 			if (userID.equals(fromUserID) && fromAccountType.equals(1L)) {
-				sumFrom.add(amount);
+				sumFrom= sumFrom.add(amount);
 			} else if (userID.equals(toUserID) && toAccountType.equals(1L)) {
-				sumTo.add(amount);
+				sumTo = sumTo.add(amount);
 			}
 		}
-		return sumTo.min(sumFrom);
+		return sumTo.subtract(sumFrom);
 	}
 
 	static BigDecimal summaryDepositl(DataStore<Entity> paymentStore, Long userID) {
@@ -64,7 +64,7 @@ public class BalanceEntityResource extends AbstractResouce {
 				sumTo.add(amount);
 			}
 		}
-		return sumTo.min(sumFrom);
+		return sumTo.subtract(sumFrom);
 	}
 
 	@Override

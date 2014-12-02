@@ -217,9 +217,6 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 						Date datetime = ((DateTime) realPayment.get("Datetime")).toDate();
 //						BigDecimal amount = payment.get("Amount");
 						realPayment.put("TransStatus", 2L);
-						session.add(stepStore, paymentFlowStep);
-						session.add(stepStore, realPayment);
-						session.flush();
 
 						UpmpNotifyResult result = null;
 						try {
@@ -249,8 +246,7 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 										orderPayDone(session, fromUser, realPayment);
 										break;
 									}
-									session.add(stepStore, stepPayConfirmed);
-									session.flush();
+									session.add(stepStore, paymentFlowStep);
 									paymentFlowStep = stepPayConfirmed;
 								}
 							}
@@ -276,11 +272,13 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 									orderPayDone(session, fromUser, realPayment);
 									break;
 								}
-								session.add(stepStore, stepPayConfirmed);
-								session.flush();
+								session.add(stepStore, paymentFlowStep);
 								paymentFlowStep = stepPayConfirmed;
 							}
 						}
+						session.add(stepStore, realPayment);
+						session.add(stepStore, paymentFlowStep);
+						session.flush();
 						break;
 					}
 
