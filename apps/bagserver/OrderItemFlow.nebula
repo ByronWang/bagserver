@@ -25,20 +25,12 @@ tx OrderItemFlow {
     	?PurchasingStart-Datetime|采购结束时间;
     	?PurchasingEnd-Datetime|采购开始时间;
     	?PurchasingDuration|购买时长 Long;
-<<<<<<< HEAD
     	?PurchasingStartLatitude|采购开始经度 Decimal;
     	?PurchasingStartLongitude|采购开始维度 Decimal;
     	?PurchasingStartLocation|采购开始地点 Description;
     	?PurchasingEndLatitude|采购完成经度 Decimal;
     	?PurchasingEndLongitude|采购完成维度 Decimal;
     	?PurchasingEndLocation|采购结束地点 Description;
-=======
-    	?PurchasingEndLatitude|采购完成经度 Decimal;
-    	?PurchasingEndLongitude|采购完成维度 Decimal;
-    	?PurchasingEndCountryRegion|采购完成国家地区 Name;
-    	?PurchasingEndAdminDistrict|采购完成一级行政区 Name;
-    	?PurchasingEndAdminDistrict2|采购完成二级行政区维度 Name;
->>>>>>> ee27239486a014014846379ad6d782302b2f438a
     	?Actual-Price|实际价格;
     	?Invoice-Image|小票图片[];
     	?ProductActual-Image|实际物品图片[];
