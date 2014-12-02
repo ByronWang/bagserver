@@ -38,7 +38,7 @@ public class BalanceEntityResource extends AbstractResouce {
 			Long fromUserID = payment.get("FromUserID");
 			Long toUserID = payment.get("ToUserID");
 			Long fromAccountType = payment.get("FromAccountTypeID");
-			Long toAccountType = payment.get("toAccountTypeID");
+			Long toAccountType = payment.get("ToAccountTypeID");
 			BigDecimal amount = payment.get("Amount");
 			if (userID.equals(fromUserID) && fromAccountType.equals(1L)) {
 				sumFrom.add(amount);
@@ -56,7 +56,7 @@ public class BalanceEntityResource extends AbstractResouce {
 			Long fromUserID = payment.get("FromUserID");
 			Long toUserID = payment.get("ToUserID");
 			Long fromAccountType = payment.get("FromAccountTypeID");
-			Long toAccountType = payment.get("toAccountTypeID");
+			Long toAccountType = payment.get("ToAccountTypeID");
 			BigDecimal amount = payment.get("Amount");
 			if (userID.equals(fromUserID) && fromAccountType.equals(3L)) {
 				sumFrom.add(amount);

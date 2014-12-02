@@ -157,6 +157,7 @@ public class OrderItemFlowListEntityResource extends EntityListResouce {
 						Long paymentID = step.get("PaymentID");
 
 						EditableEntity payment = (EditableEntity) (paymentStore.get(paymentID)).editable();
+						payment.put("TransStatus", 2L);
 
 						Date datetime = ((DateTime) payment.get("Datetime")).toDate();
 						String orderNo = payment.get("OrderNo");
@@ -174,6 +175,7 @@ public class OrderItemFlowListEntityResource extends EntityListResouce {
 //                              Preconditions.checkArgument(amount.equals(result.getSettleAmount()));
 
 								payment.put("SettleMonth", result.getSettleDate());
+								payment.put("TransStatus", 3L);
 								session.add(stepStore, payment);
 
 								EditableEntity stepPayConfirmed = new EditableEntity();
@@ -191,6 +193,7 @@ public class OrderItemFlowListEntityResource extends EntityListResouce {
 						} catch (Exception e) { // TODO For Test need delete
 							log.info("$$$$$$$$$$ 实际调用出错，发回测试数据");
 							payment.put("SettleMonth", "201410");
+							payment.put("TransStatus", 3L);
 							session.add(stepStore, payment);
 
 							EditableEntity stepPayConfirmed = new EditableEntity();
@@ -294,8 +297,6 @@ public class OrderItemFlowListEntityResource extends EntityListResouce {
 					long customerID = (Long) item.get("CustomerID");
 					long purchaserID = (Long) item.get("PurchaserID");
 
-					long payType = 5;// "支付购买款项"
-
 					BigDecimal actualAmount = item.getEntity("Bid").get("Amount");
 
 					String orderNo = String.valueOf(item.get("ID"));
@@ -305,18 +306,19 @@ public class OrderItemFlowListEntityResource extends EntityListResouce {
 
 					if (actualAmount.compareTo(amount) < 0) {
 						// 实际金额小于保证金的情况，按实际金额支付给买手，多余的保证金退还给买家
-						EditableEntity realPayment = makePayment(customerID, purchaserID, payType, 3, 3, 1, tradeDatetime, orderNo, actualAmount, "实际支付订单金额",
-								tradeNo);
+						EditableEntity realPayment = makePayment(customerID, purchaserID, 5, 3, 3, 1, tradeDatetime, orderNo, actualAmount, "实际支付订单金额", tradeNo);
+						realPayment.put("TransStatus", 3L);
 						session.add(paymentStore, realPayment);
 
-						EditableEntity retPayment = makePayment(customerID, customerID, payType, 3, 3, 1, tradeDatetime, orderNo,
-								amount.subtract(actualAmount), "退还差价", tradeNo);
+						EditableEntity retPayment = makePayment(customerID, customerID, 4, 3, 3, 1, tradeDatetime, orderNo, amount.subtract(actualAmount),
+								"退还差价", tradeNo);
+						retPayment.put("TransStatus", 3L);
 						session.add(paymentStore, retPayment);
 					} else {
 						// 实际金额大于保证金的情况，买手自己承担超出部分
 						actualAmount = amount;
-						EditableEntity realPayment = makePayment(customerID, purchaserID, payType, 3, 3, 1, tradeDatetime, orderNo, actualAmount, "实际支付订单金额",
-								tradeNo);
+						EditableEntity realPayment = makePayment(customerID, purchaserID, 5, 3, 3, 1, tradeDatetime, orderNo, actualAmount, "实际支付订单金额", tradeNo);
+						realPayment.put("TransStatus", 3L);
 						session.add(paymentStore, realPayment);
 					}
 
@@ -345,6 +347,7 @@ public class OrderItemFlowListEntityResource extends EntityListResouce {
 					if (amtPayToSystem.compareTo(new BigDecimal(0)) > 0) {
 						EditableEntity paymentForSystem = makePayment(purchaserID, systemID, payType, 3, 3, 1, tradeDatetime, orderNo, amtPayToSystem,
 								"实际支付订单金额", tradeNo);
+						paymentForSystem.put("TransStatus", 3L);
 						session.add(paymentStore, paymentForSystem);
 					}
 
@@ -372,14 +375,16 @@ public class OrderItemFlowListEntityResource extends EntityListResouce {
 
 					// 默认支付30%赔偿金给买手
 					EditableEntity realPayment = makePayment(customerID, purchaserID, payType, 3, 3, 1, tradeDatetime, orderNo, amtPayToP, "支付赔偿金", tradeNo);
+					realPayment.put("TransStatus", 3L);
 					session.add(paymentStore, realPayment);
 
 					// 剩余金额返还给买家
 					EditableEntity retPayment = makePayment(customerID, customerID, payType, 3, 3, 1, tradeDatetime, orderNo, amtReturn, "退回订单支付金额", tradeNo);
+					retPayment.put("TransStatus", 3L);
 					session.add(paymentStore, retPayment);
 				}
 
-				private EditableEntity makePayment(long fromUserID, long toUserID, long payType, long payMethod, long fromAccountType, long toAccountType,
+				private EditableEntity makePayment(long fromUserID, long toUserID, long payTypeID, long payMethod, long fromAccountType, long toAccountType,
 						DateTime tradeDatetime, String orderNo, BigDecimal amount, String description, String tradeNo) {
 					EditableEntity retPayment = new EditableEntity();
 //                  !ID;
@@ -388,7 +393,8 @@ public class OrderItemFlowListEntityResource extends EntityListResouce {
 //                  @Authorize("Read") To-User;
 					retPayment.put("ToUserID", toUserID);
 //                  PayType;
-					retPayment.put("PayTypeName", ((Entity) app.getStore("PayType").get(payType)).get("Name"));
+					retPayment.put("PayTypeID", payTypeID);
+					retPayment.put("PayTypeName", ((Entity) app.getStore("PayType").get(payTypeID)).get("Name"));
 //                  PayMethod;
 					retPayment.put("PayMethodID", payMethod);
 					retPayment.put("PayMethodName", ((Entity) app.getStore("PayMethod").get(payMethod)).get("Name"));
