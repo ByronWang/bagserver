@@ -19,4 +19,5 @@ type User{
       Contact Name;
       Phone;
   };
+  ?Readed Text;
 };
