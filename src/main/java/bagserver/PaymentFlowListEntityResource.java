@@ -5,7 +5,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +27,8 @@ import cn.xj.bag.server.manager.UnionpayService;
 import cn.xj.bag.server.modal.UpmpNotifyResult;
 import cn.xj.bag.server.modal.enums.OrderCurrency;
 
+import com.google.common.base.Predicate;
+
 public class PaymentFlowListEntityResource extends EntityListResouce {
 
 	UnionpayService unionpay = new UnionpayService();
@@ -32,6 +37,59 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 	final DataStore<Entity> statusStore;
 	final DataStore<Entity> actionStore;
 	final DataStore<Entity> paymentStore;
+	Timer timer;
+
+	final long delay;
+
+	class ConfirmRuner extends TimerTask {
+
+		@Override
+		public void run() {
+			final Collection<Entity> list = stepStore.filter(new Predicate<Entity>() {
+				@Override
+				public boolean apply(Entity input) {
+					return ((Long) 2L).equals(input.get("TransStatus"));
+				}
+			});
+
+			final boolean[] allSucceed = new boolean[1];
+
+			try {
+				stepStore.save(new TransactionCaller() {
+					@Override
+					public void exec(DataSession session) throws Exception {
+						for (Entity entity : list) {
+							boolean result = doConfirm(entity, session);
+							allSucceed[0] = allSucceed[0] && result;
+						}
+						session.flush();
+					}
+				});
+
+				if (allSucceed[0]) {
+					stopTimer();
+				}
+			} catch (Exception e) {
+				log.error(e);
+				throw new RuntimeException(e);
+			}
+
+		}
+	}
+
+	boolean timerRuning = false;
+
+	private void startTimer() {
+		if (!timerRuning) {
+			timer.schedule(new ConfirmRuner(), delay, 100);
+			timerRuning = true;
+		}
+	}
+
+	private void stopTimer() {
+		PaymentFlowListEntityResource.this.timer.cancel();
+		timerRuning = false;
+	}
 
 	public PaymentFlowListEntityResource(Application app) {
 		super(app, app.getType("PaymentFlow"));
@@ -40,6 +98,8 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 		paymentStore = app.getStore("Payment");
 		statusStore = app.getStore("OrderStatus");
 		actionStore = app.getStore("Action");
+		this.delay = Long.parseLong(app.getProperty("app.paymentTaskDelay", "3000"));
+		timer = new Timer();
 	}
 
 	final void userPayDone(DataSession session, EditableEntity fromUser) {
@@ -47,27 +107,140 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 		session.add(userStore, fromUser);
 	}
 
-	final void orderPayDone(DataSession session, EditableEntity fromUser, EditableEntity payment) {
-		Long itemID = Long.parseLong((String) payment.get("OrderNo"));
-		EditableEntity stepOrderItemFlowConfirmed = new EditableEntity();
-		stepOrderItemFlowConfirmed.extend(payment);
-		stepOrderItemFlowConfirmed.put("PaymentID", payment.get("PaymentID"));
-		stepOrderItemFlowConfirmed.put("OrderItemID", itemID);
-		stepOrderItemFlowConfirmed.put("StatusID", 2L);
-		stepOrderItemFlowConfirmed.put("StatusName", statusStore.get(2L).get("Name"));
-		stepOrderItemFlowConfirmed.put("ActionID", 11L);
-		stepOrderItemFlowConfirmed.put("ActionName", actionStore.get(11L).get("Name"));
-		session.add(app.getStore("OrderItemFlow"), stepOrderItemFlowConfirmed);
+	final boolean doConfirm(Entity stepCurrent, DataSession paymentFlow) {
+		String realOrderNo = stepCurrent.get("RealOrderNo");
+		Long payType = stepCurrent.get("PayTypeID");
+		Long paymentID = stepCurrent.get("PaymentID");
+		EditableEntity realPayment = (EditableEntity) (paymentStore.get(paymentID)).editable();
 
-		payment.put("SettleMonth", "201410");
-		session.add(stepStore, payment);
+		Date datetime = ((DateTime) realPayment.get("Datetime")).toDate();
+		UpmpNotifyResult result = null;
+		try {
+			result = unionpay.query(datetime, realOrderNo);
+			if ("00".equals(result.getTransStatus())) {
+				if (log.isDebugEnabled()) {
+					log.debug(result);
+				}
+//              Preconditions.checkArgument(datetime.equals(result.getOrderTime()));
+//              Preconditions.checkArgument(orderNo.equals(result.getOrderNumber()));
+//              Preconditions.checkArgument(amount.equals(result.getSettleAmount()));
+
+				{
+					EditableEntity stepPayConfirmed = new EditableEntity();
+					stepPayConfirmed.extend(stepCurrent);
+					stepPayConfirmed.put("ActionID", 3L);
+					stepPayConfirmed.put("ActionName", actionStore.get(3L).get("Name"));
+
+					realPayment.put("SettleMonth", result.getSettleDate());
+					realPayment.put("TransStatus", 3L);
+
+					switch (payType.intValue()) {
+					case 1:// "买手保证金"
+						Long fromUserID = stepCurrent.get("FromUserID");
+						EditableEntity fromUser = (EditableEntity) userStore.get(fromUserID).editable();
+						userPayDone(paymentFlow, fromUser);
+						break;
+					case 2:// "购买保证金"
+						orderPayConfirmed(paymentFlow, stepCurrent);
+						break;
+					}
+					paymentFlow.add(stepStore, stepPayConfirmed);
+				}
+				return true;
+			}
+		} catch (Exception e) { // TODO For Test need delete
+			log.info(e);
+			log.info("$$$$$$$$$$ 实际调用出错，发回测试数据");
+			startTimer();
+//
+//			if (!"true".equals(app.getProperty("app.auth", "true"))) {
+//
+//				EditableEntity stepPayConfirmed = new EditableEntity();
+//				stepPayConfirmed.extend(stepCurrent);
+//				stepPayConfirmed.put("ActionID", 3L);
+//				stepPayConfirmed.put("ActionName", actionStore.get(3L).get("Name"));
+//
+//				realPayment.put("SettleMonth", "201410");
+//				realPayment.put("TransStatus", 3L);
+//
+//				switch (payType.intValue()) {
+//				case 1:// "买手保证金"
+//					Long fromUserID = stepCurrent.get("FromUserID");
+//					EditableEntity fromUser = (EditableEntity) userStore.get(fromUserID).editable();
+//					break;
+//				case 2:// "购买保证金"
+//					orderPayConfirmed(paymentFlow, realPayment);
+//					break;
+//				}
+//				paymentFlow.add(stepStore, stepPayConfirmed);
+//			}
+
+		}
+		return false;
+	}
+
+	final void orderPayBegin(DataSession session, final Entity paymentFlow) {
+		Long itemID = Long.parseLong((String) paymentFlow.get("OrderNo"));
+		EditableEntity stepOrderItemFlow = new EditableEntity();
+		stepOrderItemFlow.put("PaymentID", paymentFlow.get("PaymentID"));
+		stepOrderItemFlow.put("OrderItemID", itemID);
+		stepOrderItemFlow.put("StatusID", 1L);
+		stepOrderItemFlow.put("StatusName", statusStore.get(1L).get("Name"));
+		stepOrderItemFlow.put("ActionID", 9L);
+		stepOrderItemFlow.put("ActionName", actionStore.get(9L).get("Name"));
+		session.add(app.getStore("OrderItemFlow"), stepOrderItemFlow);
 		DataStore<Entity> itemStore = app.getStore("OrderItem");
 		EditableEntity item = (EditableEntity) itemStore.get(itemID).editable();
 
-		item.put("StatusID", stepOrderItemFlowConfirmed.get("StatusID"));
-		item.put("StatusName", stepOrderItemFlowConfirmed.get("StatusName"));
-		item.put("ActionID", stepOrderItemFlowConfirmed.get("ActionID"));
-		item.put("ActionName", stepOrderItemFlowConfirmed.get("ActionName"));
+		item.put("StatusID", stepOrderItemFlow.get("StatusID"));
+		item.put("StatusName", stepOrderItemFlow.get("StatusName"));
+		item.put("ActionID", stepOrderItemFlow.get("ActionID"));
+		item.put("ActionName", stepOrderItemFlow.get("ActionName"));
+		item.put("LastUpdated", new DateTime());
+		session.add(itemStore, item);
+	}
+
+	final void orderPayFinished(DataSession session, final Entity paymentFlow) {
+		Long itemID = Long.parseLong((String) paymentFlow.get("OrderNo"));
+		EditableEntity stepOrderItemFlow = new EditableEntity();
+		stepOrderItemFlow.put("PaymentID", paymentFlow.get("PaymentID"));
+		stepOrderItemFlow.put("OrderItemID", itemID);
+		stepOrderItemFlow.put("StatusID", 1L);
+		stepOrderItemFlow.put("StatusName", statusStore.get(1L).get("Name"));
+		stepOrderItemFlow.put("ActionID", 10L);
+		stepOrderItemFlow.put("ActionName", actionStore.get(10L).get("Name"));
+		session.add(app.getStore("OrderItemFlow"), stepOrderItemFlow);
+
+		DataStore<Entity> itemStore = app.getStore("OrderItem");
+		EditableEntity item = (EditableEntity) itemStore.get(itemID).editable();
+
+		item.put("StatusID", stepOrderItemFlow.get("StatusID"));
+		item.put("StatusName", stepOrderItemFlow.get("StatusName"));
+		item.put("ActionID", stepOrderItemFlow.get("ActionID"));
+		item.put("ActionName", stepOrderItemFlow.get("ActionName"));
+		item.put("LastUpdated", new DateTime());
+		session.add(itemStore, item);
+	}
+
+	final void orderPayConfirmed(DataSession session, final Entity paymentFlow) {
+		Long itemID = Long.parseLong((String) paymentFlow.get("OrderNo"));
+		EditableEntity stepOrderItemFlow = new EditableEntity();
+		stepOrderItemFlow.put("PaymentID", paymentFlow.get("PaymentID"));
+		stepOrderItemFlow.put("OrderItemID", itemID);
+		stepOrderItemFlow.put("StatusID", 2L);
+		stepOrderItemFlow.put("StatusName", statusStore.get(2L).get("Name"));
+		stepOrderItemFlow.put("ActionID", 11L);
+		stepOrderItemFlow.put("ActionName", actionStore.get(11L).get("Name"));
+		session.add(app.getStore("OrderItemFlow"), stepOrderItemFlow);
+
+		DataStore<Entity> itemStore = app.getStore("OrderItem");
+		EditableEntity item = (EditableEntity) itemStore.get(itemID).editable();
+
+		item.put("StatusID", stepOrderItemFlow.get("StatusID"));
+		item.put("StatusName", stepOrderItemFlow.get("StatusName"));
+		item.put("ActionID", stepOrderItemFlow.get("ActionID"));
+		item.put("ActionName", stepOrderItemFlow.get("ActionName"));
+		item.put("LastUpdated", new DateTime());
 		session.add(itemStore, item);
 	}
 
@@ -84,22 +257,20 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 			stepStore.save(new TransactionCaller() {
 				@Override
 				public void exec(DataSession session) throws Exception {
-					Entity paymentFlowStep = stepIn;
+					Entity stepCurrent = stepIn;
 
-					Long actionID = paymentFlowStep.get("ActionID");
-					Long fromUserID = paymentFlowStep.get("FromUserID");
+					Long actionID = stepCurrent.get("ActionID");
+					Long fromUserID = stepCurrent.get("FromUserID");
 
-					Long payType = paymentFlowStep.get("PayTypeID");
-					Long payMethod = paymentFlowStep.get("PayMethodID");
+					Long payType = stepCurrent.get("PayTypeID");
+					Long payMethod = stepCurrent.get("PayMethodID");
 
-					String description = paymentFlowStep.get("Description");
-					String orderNo = paymentFlowStep.get("OrderNo");
-					String realOrderNo = orderNo + String.valueOf(System.currentTimeMillis());
-					paymentFlowStep.put("realOrderNo", realOrderNo);
+					String description = stepCurrent.get("Description");
+					String orderNo = stepCurrent.get("OrderNo");
 
 					String tradeNo = null;
 					DateTime tradeDatetime = new DateTime();
-					BigDecimal amount = paymentFlowStep.get("Amount");
+					BigDecimal amount = stepCurrent.get("Amount");
 
 					long fromAccountType = 1;
 					long toAccountType = 1;
@@ -114,6 +285,9 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 					case 1:// "开始支付"
 					{
 
+						String realOrderNo = orderNo + String.valueOf(System.currentTimeMillis());
+						stepCurrent.put("RealOrderNo", realOrderNo);
+
 						switch (payType.intValue()) {
 						case 1:// "买手保证金"
 							fromAccountType = payMethod;
@@ -122,8 +296,8 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 							switch (payMethod.intValue()) {
 							case 1:
 								if (BalanceEntityResource.summaryDepositl(paymentStore, fromUserID).compareTo(amount) >= 0) {
-									paymentFlowStep.put("ActionID", 3L);
-									paymentFlowStep.put("ActionName", actionStore.get(3L).get("Name"));
+									stepCurrent.put("ActionID", 3L);
+									stepCurrent.put("ActionName", actionStore.get(3L).get("Name"));
 									userPayDone(session, fromUser);
 								} else {
 									throw new RuntimeException("");
@@ -131,31 +305,31 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 								break;
 							case 2:
 								tradeNo = unionpay.trade(tradeDatetime.toDate(), realOrderNo, OrderCurrency.RMB, amount, description).getTn();
-								paymentFlowStep.put("ActionID", 1L);
-								paymentFlowStep.put("ActionName", actionStore.get(1L).get("Name"));
+								stepCurrent.put("ActionID", 1L);
+								stepCurrent.put("ActionName", actionStore.get(1L).get("Name"));
 								break;
 							}
 
 							break;
 						case 2:// "购买保证金"
-							paymentFlowStep.put("OrderItemID", paymentFlowStep.get("OrderItemID"));
+							stepCurrent.put("OrderItemID", stepCurrent.get("OrderItemID"));
 							fromAccountType = payMethod;
 							toAccountType = 3;// 保证金
 
 							switch (payMethod.intValue()) {
 							case 1:
 								if (BalanceEntityResource.summaryDepositl(paymentStore, fromUserID).compareTo(amount) >= 0) {
-									paymentFlowStep.put("ActionID", 3L);
-									paymentFlowStep.put("ActionName", actionStore.get(3L).get("Name"));
-									orderPayDone(session, fromUser, (EditableEntity) paymentFlowStep);
+									stepCurrent.put("ActionID", 3L);
+									stepCurrent.put("ActionName", actionStore.get(3L).get("Name"));
+									orderPayConfirmed(session, (EditableEntity) stepCurrent);
 								} else {
 									throw new RuntimeException("");
 								}
 								break;
 							case 2:
 								tradeNo = unionpay.trade(tradeDatetime.toDate(), realOrderNo, OrderCurrency.RMB, amount, description).getTn();
-								paymentFlowStep.put("ActionID", 1L);
-								paymentFlowStep.put("ActionName", actionStore.get(1L).get("Name"));
+								stepCurrent.put("ActionID", 1L);
+								stepCurrent.put("ActionName", actionStore.get(1L).get("Name"));
 								break;
 							}
 
@@ -165,8 +339,8 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 							fromAccountType = 1;// 个人账户
 							toAccountType = 2;// 银行
 
-							paymentFlowStep.put("ActionID", 2L);
-							paymentFlowStep.put("ActionName", actionStore.get(2L).get("Name"));
+							stepCurrent.put("ActionID", 2L);
+							stepCurrent.put("ActionName", actionStore.get(2L).get("Name"));
 
 							break;
 						}
@@ -175,51 +349,68 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 //                        @Authorize("Read") From-User;
 //                        @Authorize("Read") To-User;
 //                        PayType;
-						paymentFlowStep.put("PayTypeName", ((Entity) app.getStore("PayType").get(payType)).get("Name"));
+						stepCurrent.put("PayTypeName", ((Entity) app.getStore("PayType").get(payType)).get("Name"));
 //                        PayMethod;
-						paymentFlowStep.put("PayMethodID", payMethod);
-						paymentFlowStep.put("PayMethodName", ((Entity) app.getStore("PayMethod").get(payMethod)).get("Name"));
+						stepCurrent.put("PayMethodID", payMethod);
+						stepCurrent.put("PayMethodName", ((Entity) app.getStore("PayMethod").get(payMethod)).get("Name"));
 //                        From-AccountType;
-						paymentFlowStep.put("FromAccountTypeID", fromAccountType);
-						paymentFlowStep.put("FromAccountTypeName", ((Entity) app.getStore("AccountType").get(fromAccountType)).get("Name"));
+						stepCurrent.put("FromAccountTypeID", fromAccountType);
+						stepCurrent.put("FromAccountTypeName", ((Entity) app.getStore("AccountType").get(fromAccountType)).get("Name"));
 //                        To-AccountType;
-						paymentFlowStep.put("ToAccountTypeID", toAccountType);
-						paymentFlowStep.put("ToAccountTypeName", ((Entity) app.getStore("AccountType").get(toAccountType)).get("Name"));
+						stepCurrent.put("ToAccountTypeID", toAccountType);
+						stepCurrent.put("ToAccountTypeName", ((Entity) app.getStore("AccountType").get(toAccountType)).get("Name"));
 //                        Datetime;// 交易开始日期时间
-						paymentFlowStep.put("Datetime", tradeDatetime);
+						stepCurrent.put("Datetime", tradeDatetime);
 //                        Order-No;// 商户订单号
-						paymentFlowStep.put("OrderNo", orderNo);
-						paymentFlowStep.put("RealOrderNo", orderNo);
+						stepCurrent.put("OrderNo", orderNo);
+						stepCurrent.put("RealOrderNo", realOrderNo);
 //                        Amount;        // 清算金额
-						paymentFlowStep.put("Amount", amount);
+						stepCurrent.put("Amount", amount);
 //                        Description;
-						paymentFlowStep.put("Description", description);
+						stepCurrent.put("Description", description);
 //                        Trade-No; // 交易流水号
-						paymentFlowStep.put("TradeNo", tradeNo);
+						stepCurrent.put("TradeNo", tradeNo);
 
 						EditableEntity realPayment = new EditableEntity();
-						realPayment.extend(paymentFlowStep);
-						realPayment.put("TransStatus", paymentFlowStep.get("ActionID"));
+						realPayment.extend(stepCurrent);
+						realPayment.put("TransStatus", stepCurrent.get("ActionID"));
 						session.add(paymentStore, realPayment);
 						session.flush();
-						paymentFlowStep.put("PaymentID", realPayment.get("ID"));
-						session.add(stepStore, paymentFlowStep);
+						stepCurrent.put("PaymentID", realPayment.get("ID"));
+						session.add(stepStore, stepCurrent);
+
+						switch (payType.intValue()) {
+						case 2:// "购买保证金"
+							orderPayBegin(session, stepCurrent);
+							break;
+						}
 						session.flush();
 					}
 
 						break;
 					case 2:// "支付完成"
 
-						Long paymentID = paymentFlowStep.get("PaymentID");
+						Long paymentID = stepCurrent.get("PaymentID");
 
 						EditableEntity realPayment = (EditableEntity) (paymentStore.get(paymentID)).editable();
 
-						Date datetime = ((DateTime) realPayment.get("Datetime")).toDate();
 //						BigDecimal amount = payment.get("Amount");
 						realPayment.put("TransStatus", 2L);
+						switch (payType.intValue()) {
+						case 2:// "购买保证金"
+							orderPayFinished(session, stepCurrent);
+							break;
+						}
+						session.add(stepStore, stepCurrent);
 
+					case 3:
+						paymentID = stepCurrent.get("PaymentID");
+						realPayment = (EditableEntity) (paymentStore.get(paymentID)).editable();
+
+						Date datetime = ((DateTime) realPayment.get("Datetime")).toDate();
 						UpmpNotifyResult result = null;
 						try {
+							String realOrderNo = stepCurrent.get("RealOrderNo");
 							result = unionpay.query(datetime, realOrderNo);
 							if ("00".equals(result.getTransStatus())) {
 								if (log.isDebugEnabled()) {
@@ -231,7 +422,7 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 
 								{
 									EditableEntity stepPayConfirmed = new EditableEntity();
-									stepPayConfirmed.extend(paymentFlowStep);
+									stepPayConfirmed.extend(stepCurrent);
 									stepPayConfirmed.put("ActionID", 3L);
 									stepPayConfirmed.put("ActionName", actionStore.get(3L).get("Name"));
 
@@ -243,47 +434,47 @@ public class PaymentFlowListEntityResource extends EntityListResouce {
 										userPayDone(session, fromUser);
 										break;
 									case 2:// "购买保证金"
-										orderPayDone(session, fromUser, realPayment);
+										orderPayConfirmed(session, stepCurrent);
 										break;
 									}
-									session.add(stepStore, paymentFlowStep);
-									paymentFlowStep = stepPayConfirmed;
+									session.add(stepStore, stepPayConfirmed);
+									stepCurrent = stepPayConfirmed;
 								}
 							}
 						} catch (Exception e) { // TODO For Test need delete
 							log.info(e);
 							log.info("$$$$$$$$$$ 实际调用出错，发回测试数据");
 
-							if (!"true".equals(app.getProperty("app.auth", "true"))) {
+//							if (!"true".equals(app.getProperty("app.auth", "true"))) {
+//
+//								EditableEntity stepPayConfirmed = new EditableEntity();
+//								stepPayConfirmed.extend(paymentFlowStep);
+//								stepPayConfirmed.put("ActionID", 3L);
+//								stepPayConfirmed.put("ActionName", actionStore.get(3L).get("Name"));
+//
+//								realPayment.put("SettleMonth", "201410");
+//								realPayment.put("TransStatus", 3L);
+//
+//								switch (payType.intValue()) {
+//								case 1:// "买手保证金"
+//									userPayDone(session, fromUser);
+//									break;
+//								case 2:// "购买保证金"
+//									orderPayConfirmed(session, realPayment);
+//									break;
+//								}
+//								session.add(stepStore, stepPayConfirmed);
+//								paymentFlowStep = stepPayConfirmed;
+//							}
 
-								EditableEntity stepPayConfirmed = new EditableEntity();
-								stepPayConfirmed.extend(paymentFlowStep);
-								stepPayConfirmed.put("ActionID", 3L);
-								stepPayConfirmed.put("ActionName", actionStore.get(3L).get("Name"));
-
-								realPayment.put("SettleMonth", "201410");
-								realPayment.put("TransStatus", 3L);
-
-								switch (payType.intValue()) {
-								case 1:// "买手保证金"
-									userPayDone(session, fromUser);
-									break;
-								case 2:// "购买保证金"
-									orderPayDone(session, fromUser, realPayment);
-									break;
-								}
-								session.add(stepStore, paymentFlowStep);
-								paymentFlowStep = stepPayConfirmed;
-							}
 						}
 						session.add(stepStore, realPayment);
-						session.add(stepStore, paymentFlowStep);
 						session.flush();
 						break;
 					}
 
 					StringWriter sw = new StringWriter();
-					jsonHolder.stringifyTo(paymentFlowStep, sw);
+					jsonHolder.stringifyTo(stepCurrent, sw);
 
 					sb.append(sw.toString());
 				}

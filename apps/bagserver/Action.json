@@ -27,22 +27,22 @@
   {
     "ID": 6,
     "Quick": "delivered  ",
-    "Name": "确认收货"
+    "Name": "完成"
   },
   {
     "ID": 7,
     "Quick": "cancelPurchasing ",
-    "Name": "放弃购买"
+    "Name": "买手放弃"
   },
   {
     "ID": 8,
     "Quick": "cancelOrder ",
-    "Name": "放弃订单"
+    "Name": "买家放弃"
   },
   {
     "ID": 9,
     "Quick": "startPay",
-    "Name": "开始支付"
+    "Name": "支付定金"
   },
   {
     "ID": 10,
@@ -52,6 +52,6 @@
 	{
 				"ID" : 11,
 	   			 "Quick": "confirmPay",
-				"Name" : "支付已确认"
+				"Name" : "等待购买"
 	}
 ]

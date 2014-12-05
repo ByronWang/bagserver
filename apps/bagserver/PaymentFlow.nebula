@@ -10,6 +10,7 @@ tx PaymentFlow {
     Order-ID;
     User-Name;
     Order-No;// 商户订单号
+    RealOrder-No;// 商户订单号
     Amount;        // 清算金额
     Description;
     Trade-No; // 交易流水号
